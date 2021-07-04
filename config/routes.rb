@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   resources :stores, except: [:destroy] do
     resources :store_comments, except: [:index]
   end
-  
+  resources :users, only: [:show, :edit, :update]
 end
