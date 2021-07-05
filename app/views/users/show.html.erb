@@ -1,0 +1,28 @@
+<div class='container px-5 px-sm-0'>
+  <div class='row'>
+    <div class='col-md-3'>
+      <h2>User info</h2>
+      <table class='table'>
+        <tr><%= attachment_image_tag(@user, :profile_image, size: "200x200", fallback: "no_image.jpg") %></tr>
+        <tr>
+      	  <th>name</th>
+      	  <th><%= @user.name %></th>
+        </tr>
+        <tr>
+      	  <th>introduction</th>
+      	  <th><%= @user.introduction %></th>
+        </tr>
+      </table>
+      
+      <div class='row'>
+        <% if @user == current_user %>
+         <%= link_to '編集',edit_user_path(@user),class: "btn btn-outline-secondary" %>
+        <% end %>
+      </div>
+    </div>
+    <div class='col-md-8 offset-md-1'>
+      <h2>StoreComment</h2>
+
+    </div>
+  </div>
+</div>
