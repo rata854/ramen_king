@@ -1,1 +1,33 @@
-<h1>storesindex</h1>
+<div class='container'>
+  <div class='row'>
+    <div class="col-sm-12 mx-auto">
+        
+      <div class="row justify-content-between">
+        <div class="col-4"><h4>店舗一覧</4></div>
+          <% if user_signed_in? %>
+            <%= link_to "新規店舗登録", new_store_path %>
+          <% end %>
+      </div>
+      
+      <% @stores.each do |store| %>
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <%= link_to store_path(store) do %>    
+            <p>image</p>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"><%= store.store_name %></h5>
+            <% end %>
+              <p class="card-text"><%= store.address %></p>
+              <p class="card-text"><%= store.business_day %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
+      
+     </div>
+   </div>
+ </div>
