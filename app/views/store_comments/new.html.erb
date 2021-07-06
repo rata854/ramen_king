@@ -1,0 +1,13 @@
+<div class='container'>
+  <div class='row'>
+    <div class="col-sm-12 mx-auto">
+    <h2>新規口コミ</h2>
+      <%= form_with(model:[@store,@store_comment], url: store_store_comments_path, local:true) do |f| %>
+      <%= render 'layouts/errors', obj: @store_comment %>
+      <%= render 'form', f: f %>
+        <div class="form-group">
+          <%= f.submit class: 'btn btn-secondary' %>
+        </div>
+      <% end %>
+  </div>
+</div>

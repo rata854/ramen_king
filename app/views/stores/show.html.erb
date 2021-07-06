@@ -11,19 +11,6 @@
       <p>星評価</p>
       <p><%= @store.address %></p>
 
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4  img-hidden">
-            <p>image</p>
-          </div>
-          <div class="col-md-4  img-hidden">
-            <p>image</p>
-          </div>
-          <div class="col-md-4  img-hidden">
-            <p>image</p>
-          </div>
-        </div>
-      </div>
 
       <table class="table">
         <tr>
@@ -45,3 +32,4 @@
           <th>定休日</th><td><%= @store.holiday %></td>
         </tr>
       </table>
+      <%= link_to "新規口コミ作成", new_store_store_comment_path(@store.id) %>
