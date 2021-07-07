@@ -22,7 +22,40 @@
     </div>
     <div class='col-md-8 offset-md-1'>
       <h2>StoreComment</h2>
-
+      <% @user.store_comments.each do |store_comment|%>
+      <table class="table">
+        <tr>
+          <th>
+ 
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <div id="rate_<%= store_comment.id %>"></div>
+            <script>
+              $('#rate_<%= store_comment.id %>').raty({
+                size: 20,
+                starOff:  '<%= asset_path('star-off.png') %>',
+                starOn : '<%= asset_path('star-on.png') %>',
+                starHalf: '<%= asset_path('star-half.png') %>',
+                half: true,
+                readOnly: true,
+                score: <%= store_comment.rate %>,
+              });
+            </script>
+          </th>
+        </tr>
+        <tr>
+          <th>タイトル</th><td><%= store_comment.title %></td>
+        </tr>
+        <tr>
+          <th>口コミ</th><td><%= store_comment.introduction %></td>
+        </tr>
+        <tr>
+          <th>ジャンル</th><td><%= store_comment.genre %></td>
+        </tr>
+      </table>
+      <% end %>
     </div>
   </div>
 </div>

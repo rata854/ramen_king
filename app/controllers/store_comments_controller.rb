@@ -28,6 +28,7 @@ class StoreCommentsController < ApplicationController
 
   def update
     @store_comment = StoreComment.find(params[:id])
+    
     if @store_comment.update(store_comment_params)
       redirect_to store_store_comment_path(id: @store_comment)
     else
@@ -46,7 +47,7 @@ class StoreCommentsController < ApplicationController
 
   def store_comment_params
     params.require(:store_comment).permit(:title, :introduction, :product_image,
-                                          :evaluation, :genre, :store_id )
+                                          :rate, :genre, :store_id )
   end
 
 end
