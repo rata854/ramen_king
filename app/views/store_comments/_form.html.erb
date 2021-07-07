@@ -1,0 +1,16 @@
+<div class="form-group">
+  <%= f.label :"タイトル" %>
+  <%= f.text_field :title, class: "form-control title" %>
+</div>
+<div class="form-group">
+  <%= f.label :"本文" %>
+  <%= f.text_area :introduction, class: "form-control product_image" %>
+</div>
+<div class="form-group">
+  <%= f.label :"ジャンル" %>
+  <%= f.select :genre, StoreComment.genres.keys.to_a, {} %>
+</div>
+<div class="form-group">
+  <%= f.label :"画像" %>
+  <%= f.attachment_field :product_image, class: "form-control-file product_image" %>
+</div>
