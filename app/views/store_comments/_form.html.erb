@@ -4,7 +4,7 @@
 </div>
 <div class="form-group">
   <%= f.label :"本文" %>
-  <%= f.text_area :introduction, class: "form-control product_image" %>
+  <%= f.text_area :introduction, class: "form-control introduction" %>
 </div>
 <div class="form-group">
   <%= f.label :"ジャンル" %>
@@ -14,3 +14,17 @@
   <%= f.label :"画像" %>
   <%= f.attachment_field :product_image, class: "form-control-file product_image" %>
 </div>
+<div class="form-group" id="star">
+  <%= f.label :rate %>
+  <%= f.hidden_field :rate, id: :review_star, class:'form-control' %>
+</div>
+<script>
+  $('#star').raty({
+    size     : 36,
+    starOff:  '<%= asset_path('star-off.png') %>',
+    starOn : '<%= asset_path('star-on.png') %>',
+    starHalf: '<%= asset_path('star-half.png') %>',
+    scoreName: 'store_comment[rate]',
+    half: true,
+  });
+</script>

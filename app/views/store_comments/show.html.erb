@@ -3,21 +3,32 @@
     <div class="col-sm-12 mx-auto">
 
       <div class="row justify-content-between">
-        <div class="col-4"><h4><%= @store_comment.store.store_name %></4></div>
-          <% if user_signed_in? %>
+        <div class="col-4">
+          <%= link_to store_path(@store_comment.store_id) do %>
+            <h4><%= @store_comment.store.store_name %></h4>
+          <% end %>
+        </div>
+          <% if @store_comment.user == current_user %>
             <%= link_to "口コミ編集", edit_store_store_comment_path(@store, @store_comment) %>
-            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete %>
+            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete, data: { confirm: "削除しますか？" } %>
           <% end %>
       </div>
-      <p>店舗総合星評価</p>
+
       <p><%= @store_comment.store.address %></p>
-      
+
       <table class="table">
         <tr>
-          <th>◯◯さんのコメント</th>
+          <th>
+            <%= link_to user_path(@store.id, @store_comment.user_id) do %>
+              <%= @store_comment.user.name %>さんの口コミ
+            <% end %>
+          </th>
         </tr>
         <tr>
-          <th>ユーザー星評価</th>
+          <th>
+            <p>評価</p>
+            <%= render 'stores/star', store: @store_comment %>
+          </th>
         </tr>
         <tr>
           <th>タイトル</th><td><%= @store_comment.title %></td>
@@ -29,6 +40,7 @@
           <th>ジャンル</th><td><%= @store_comment.genre %></td>
         </tr>
       </table>
-        
-        
-        
+
+    </div>
+  </div>
+</div>

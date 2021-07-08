@@ -20,6 +20,7 @@
             <div class="card-body">
               <h5 class="card-title"><%= store.store_name %></h5>
             <% end %>
+              <%= render 'star_average', store: store %>
               <p class="card-text"><%= store.address %></p>
               <p class="card-text"><%= store.business_day %></p>
             </div>
