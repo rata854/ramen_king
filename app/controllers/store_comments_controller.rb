@@ -3,8 +3,6 @@ class StoreCommentsController < ApplicationController
   def show
     @store = Store.find(params[:store_id])
     @store_comment = StoreComment.find(params[:id])
-    
- 
   end
 
   def new

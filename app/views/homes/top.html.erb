@@ -1,14 +1,22 @@
-<h1>トップページ</h1>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4  img-hidden">
-            <p><%= @ranking.store_name  </p>
-          </div>
-          <div class="col-md-4  img-hidden">
-            <p>image</p>
-          </div>
-          <div class="col-md-4  img-hidden">
-            <p>image</p>
+<div class="container">
+  <h2>らあめんKING</h2>
+    <div class="row">
+      <% @stores.each do |store| %>
+        <div class="col-md-4" >
+          <div class="card-group">
+            <div class="card">
+              <%= link_to store_path(store.id) do %>
+                <%#= attachment_image_tag(store.store_comments, :image, size: "150x100", fallback: "no_image.jpg") %>
+              <div class="card-body text">
+                <h5 class="card-title"><%= store.store_name %></h5>
+              <% end %>
+                <%= render 'stores/star_average', store: store %>
+                <p class="card-text"><%= store.address %></p>
+                <p class="card-text"><%= store.business_day %></p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
+    </div>
+</div>

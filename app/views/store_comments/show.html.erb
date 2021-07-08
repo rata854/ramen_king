@@ -19,7 +19,7 @@
       <table class="table">
         <tr>
           <th>
-            <%= link_to user_path(@store_comment.user_id) do %>
+            <%= link_to user_path(@store.id, @store_comment.user_id) do %>
               <%= @store_comment.user.name %>さんの口コミ
             <% end %>
           </th>
