@@ -26,23 +26,12 @@
       <table class="table">
         <tr>
           <th>
- 
+            <%= store_comment.store.store_name %>
           </th>
         </tr>
         <tr>
           <th>
-            <div id="rate_<%= store_comment.id %>"></div>
-            <script>
-              $('#rate_<%= store_comment.id %>').raty({
-                size: 20,
-                starOff:  '<%= asset_path('star-off.png') %>',
-                starOn : '<%= asset_path('star-on.png') %>',
-                starHalf: '<%= asset_path('star-half.png') %>',
-                half: true,
-                readOnly: true,
-                score: <%= store_comment.rate %>,
-              });
-            </script>
+            <%= render 'stores/star', store: store_comment %>
           </th>
         </tr>
         <tr>

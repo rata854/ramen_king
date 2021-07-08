@@ -3,10 +3,14 @@
     <div class="col-sm-12 mx-auto">
 
       <div class="row justify-content-between">
-        <div class="col-4"><h4><%= @store_comment.store.store_name %></4></div>
+        <div class="col-4">
+          <%= link_to store_path(@store_comment.store_id) do %>
+            <h4><%= @store_comment.store.store_name %></h4>
+          <% end %>
+        </div>
           <% if @store_comment.user == current_user %>
             <%= link_to "口コミ編集", edit_store_store_comment_path(@store, @store_comment) %>
-            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete %>
+            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete, data: { confirm: "削除しますか？" } %>
           <% end %>
       </div>
 
@@ -23,18 +27,7 @@
         <tr>
           <th>
             <p>評価</p>
-            <div id="rate_<%= @store_comment.id %>"></div>
-            <script>
-              $('#rate_<%= @store_comment.id %>').raty({
-                size: 20,
-                starOff:  '<%= asset_path('star-off.png') %>',
-                starOn : '<%= asset_path('star-on.png') %>',
-                starHalf: '<%= asset_path('star-half.png') %>',
-                half: true,
-                readOnly: true,
-                score: <%= @store_comment.rate %>,
-              });
-            </script>
+            <%= render 'stores/star', store: @store_comment %>
           </th>
         </tr>
         <tr>

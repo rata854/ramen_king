@@ -8,9 +8,11 @@
             <%= link_to "店舗情報編集", edit_store_path %>
           <% end %>
       </div>
-      <p>総合星評価</p>
-      <p><%= @store.address %></p>
+      
+      <!--星評価-->
+      <%= render 'star_average', store: @store %>
 
+      <p><%= @store.address %></p>
 
       <table class="table">
         <tr>
@@ -51,18 +53,8 @@
         </tr>
         <tr>
           <th>
-            <div id="rate_<%= store_comment.id %>"></div>
-            <script>
-              $('#rate_<%= store_comment.id %>').raty({
-                size: 20,
-                starOff:  '<%= asset_path('star-off.png') %>',
-                starOn : '<%= asset_path('star-on.png') %>',
-                starHalf: '<%= asset_path('star-half.png') %>',
-                half: true,
-                readOnly: true,
-                score: <%= store_comment.rate %>,
-              });
-            </script>
+            <!--星機能-->
+            <%= render 'star', store: store_comment %>
           </th>
         </tr>
         <tr>

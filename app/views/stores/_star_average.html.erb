@@ -1,0 +1,13 @@
+  <div id="rate_<%= store.id %>"></div>
+    <script>
+      $('#rate_<%= store.id %>').empty();
+        $('#rate_<%= store.id %>').raty({
+          size: 20,
+          starOff:  '<%= asset_path('star-off.png') %>',
+          starOn : '<%= asset_path('star-on.png') %>',
+          starHalf: '<%= asset_path('star-half.png') %>',
+          half: true,
+          readOnly: true,
+          score: <%= store.store_comments.average(:rate).round(2) %>,
+        });
+    </script>
