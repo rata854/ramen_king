@@ -13,7 +13,7 @@
       	  <th><%= @user.introduction %></th>
         </tr>
       </table>
-      
+
       <div class='row'>
         <% if @user == current_user %>
          <%= link_to '編集',edit_user_path(@user),class: "btn btn-outline-secondary" %>
