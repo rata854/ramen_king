@@ -20,12 +20,14 @@
         <tr>
           <th>
             <%= link_to user_path(@store_comment.user_id) do %>
+              <%= attachment_image_tag(@store_comment.user, :profile_image, size: "50x50", fallback: "no_image.jpg") %>
               <%= @store_comment.user.name %>さんの口コミ
             <% end %>
           </th>
         </tr>
         <tr>
           <th>
+            <%= attachment_image_tag(@store_comment, :product_image, size: "300x300", fallback: "no_image.jpg") %>
             <p>評価</p>
             <%= render 'stores/star', store: @store_comment %>
           </th>

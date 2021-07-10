@@ -4,6 +4,17 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    @my_ranks = Store.left_joins(:store_comments).distinct.sort_by do |store|
+                    ranks = store.store_comments.select{ |store| store.user_id == @user.id }
+                    if ranks.present?
+                      # ranks.select(genre: 1)
+                      # ranks.select{ |store| store.genre == 1 }
+                      ranks.map(&:rate).sum / ranks.size
+                    else
+                      0
+                    end
+                end.reverse
+    @my_ranks = @my_ranks.first(3)
   end
   
   def edit
