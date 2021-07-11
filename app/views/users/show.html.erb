@@ -19,6 +19,26 @@
          <%= link_to '編集',edit_user_path(@user),class: "btn btn-outline-secondary" %>
         <% end %>
       </div>
+    <div class="row">
+      <% @my_ranks.each.with_index(1) do |my_rank, i| %>
+        <div class="col-md-3" >
+          
+            <div class="card" style="width: 400px">
+              <p>第<%= i %>位</p>
+              <%= link_to store_path(my_rank.id) do %>
+                <%#= attachment_image_tag(my_rank.store_comments.first, :product_image, size: "288x250", fallback: "no_image.jpg") %>
+              <div class="card-body text">
+                <h5 class="card-title"><%= my_rank.store_name %></h5>
+              <% end %>
+                <%= render 'stores/star_average', store: my_rank %>
+                <p class="card-text"><%= my_rank.address %></p>
+                <p class="card-text"><%= my_rank.business_day %></p>
+              </div>
+           
+          </div>
+        </div>
+      <% end %>
+    </div>
     </div>
     <div class='col-md-8 offset-md-1'>
       <h2>StoreComment</h2>
