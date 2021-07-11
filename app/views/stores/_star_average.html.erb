@@ -1,16 +1,16 @@
 <% if store.store_comments.present? %>
-  <div id="rate_<%= store.id %>"></div>
-    <p>口コミ<%= store.store_comments.count %>件</p>
+  <div class="rate_<%= store.id %>_<%= rate_name %>" ></div>
+    <p>(<%= score %>/5.0)</p>
     <script>
-      $('#rate_<%= store.id %>').empty();
-        $('#rate_<%= store.id %>').raty({
+      $('.rate_<%= store.id %>_<%= rate_name %>').empty();
+        $('.rate_<%= store.id %>_<%= rate_name %>').raty({
           size: 20,
           starOff:  '<%= asset_path('star-off.png') %>',
           starOn : '<%= asset_path('star-on.png') %>',
           starHalf: '<%= asset_path('star-half.png') %>',
           half: true,
           readOnly: true,
-          score: <%= store.store_comments.average(:rate).round(2) %>,
+          score: <%= score %>,
         });
     </script>
 <% else %>

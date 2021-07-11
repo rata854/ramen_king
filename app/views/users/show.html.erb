@@ -5,66 +5,73 @@
       <table class='table'>
         <tr><%= attachment_image_tag(@user, :profile_image, size: "200x200", fallback: "no_image.jpg") %></tr>
         <tr>
-      	  <th>name</th>
       	  <th><%= @user.name %></th>
         </tr>
         <tr>
-      	  <th>introduction</th>
       	  <th><%= @user.introduction %></th>
         </tr>
       </table>
 
-      <div class='row'>
+      <div class='row test-center'>
         <% if @user == current_user %>
-         <%= link_to '編集',edit_user_path(@user),class: "btn btn-outline-secondary" %>
+         <%= link_to '編集',edit_user_path(@user),class: "btn btn-outline-secondary btn-block" %>
         <% end %>
       </div>
+
+    <h5 class='p-2'><%= @user.name %>さんのランキング</h5>
     <div class="row">
+
       <% @my_ranks.each.with_index(1) do |my_rank, i| %>
-        <div class="col-md-3" >
-          
-            <div class="card" style="width: 400px">
-              <p>第<%= i %>位</p>
-              <%= link_to store_path(my_rank.id) do %>
-                <%#= attachment_image_tag(my_rank.store_comments.first, :product_image, size: "288x250", fallback: "no_image.jpg") %>
-              <div class="card-body text">
-                <h5 class="card-title"><%= my_rank.store_name %></h5>
-              <% end %>
-                <%= render 'stores/star_average', store: my_rank %>
-                <p class="card-text"><%= my_rank.address %></p>
-                <p class="card-text"><%= my_rank.business_day %></p>
-              </div>
-           
+      <% avg = my_rank.store_comments.where(user_id: @user.id).average(:rate) %>
+      <% unless avg.nil? %>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <p>第<%= i %>位</p>
+            <%= link_to store_path(my_rank.id) do %>
+              <%#= attachment_image_tag(my_rank.store_comments.first, :product_image, size: "288x250", fallback: "no_image.jpg") %>
+            <div class="card-body text">
+              <h5 class="card-title"><%= my_rank.store_name %></h5>
+            <% end %>
+              
+              
+              <%= render 'stores/star_average', { rate_name: "my_rate" ,store: my_rank, score: avg.nil? ? 0 : avg.round(2) } %>
+              
+
+              <p class="card-text"><%= my_rank.address %></p>
+              <p class="card-text"><%= my_rank.business_day %></p>
+            </div>
           </div>
         </div>
+        <% end %>
       <% end %>
     </div>
     </div>
     <div class='col-md-8 offset-md-1'>
-      <h2>StoreComment</h2>
+      <h4><%= @user.name %>さんの口コミ</h4>
+      <p>口コミ<%= @user.store_comments.count %>件</p>
+
       <% @user.store_comments.each do |store_comment|%>
-      <table class="table">
-        <tr>
-          <th>
-            <%= store_comment.store.store_name %>
-          </th>
-        </tr>
-        <tr>
-          <th>
-            <%= render 'stores/star', store: store_comment %>
-          </th>
-        </tr>
-        <tr>
-          <th>タイトル</th><td><%= store_comment.title %></td>
-        </tr>
-        <tr>
-          <th>口コミ</th><td><%= store_comment.introduction %></td>
-        </tr>
-        <tr>
-          <th>ジャンル</th><td><%= store_comment.genre %></td>
-        </tr>
-      </table>
+       <div class="card mb-3" style="max-width: 900px;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <%= attachment_image_tag(store_comment, :product_image, size: "250x250", fallback: "no_image.jpg") %>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <%= link_to store_store_comment_path(@user.id, store_comment.id) do %>
+                <h5 class="card-title"><%= store_comment.title %></h5>
+              <% end %>
+              <%= render 'stores/star', store: store_comment %>
+              <p>ジャンル：[<%= store_comment.genre %>]</p>
+              <p class="card-text"><%= store_comment.introduction %></p>
+            </div>
+          </div>
+        </div>
+      </div>
       <% end %>
+
+
+
     </div>
   </div>
 </div>

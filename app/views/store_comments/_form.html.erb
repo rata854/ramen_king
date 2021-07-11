@@ -19,12 +19,13 @@
   <%= f.hidden_field :rate, id: :review_star, class:'form-control' %>
 </div>
 <script>
-  $('#star').raty({
-    size     : 36,
-    starOff:  '<%= asset_path('star-off.png') %>',
-    starOn : '<%= asset_path('star-on.png') %>',
-    starHalf: '<%= asset_path('star-half.png') %>',
-    scoreName: 'store_comment[rate]',
-    half: true,
-  });
+  $('#star').empty();
+    $('#star').raty({
+      size     : 36,
+      starOff:  '<%= asset_path('star-off.png') %>',
+      starOn : '<%= asset_path('star-on.png') %>',
+      starHalf: '<%= asset_path('star-half.png') %>',
+      scoreName: 'store_comment[rate]',
+      half: true,
+    });
 </script>
