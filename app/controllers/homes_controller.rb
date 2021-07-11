@@ -15,7 +15,6 @@ class HomesController < ApplicationController
                     ranks = tonkotsu_rank.store_comments.where(genre: 2)
                     if ranks.present?
                       ranks.map(&:rate).sum / ranks.size
-                      # ranks.select{ |store| store.genre == 2 }
                     else
                       0
                     end
