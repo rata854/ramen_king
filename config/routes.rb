@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   resources :store_comments, except: [:index]
   end
   resources :users, only: [:show, :edit, :update]
+  get 'search' => 'stores#search'
 end

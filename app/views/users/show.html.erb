@@ -34,7 +34,7 @@
             <% end %>
               
               
-              <%= render 'stores/star_average', { rate_name: "my_rate" ,store: my_rank, score: avg.nil? ? 0 : avg.round(2) } %>
+              <%= render 'stores/star_average', { rate_name: "my_rate" ,store: my_rank, score: avg.nil? ? 0 : avg.round(1) } %>
               
 
               <p class="card-text"><%= my_rank.address %></p>
