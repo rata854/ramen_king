@@ -1,3 +1,4 @@
+
         <tbody>
           <tr>
             <th>1</th>
@@ -7,6 +8,7 @@
               <% end %>
            </td>
             <td><%= store.address %></td>
-            <td><%= render 'star_average', { rate_name: "rate", store: store, score: store.store_comments.average(:rate).round(1) } %></td>
+            <td><%= render 'star_average', { rate_name: "rate", store: store, score: avg.nil? ? 0 : avg.round(1) } %></td>
           </tr>
         </tbody>
+ 

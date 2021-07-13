@@ -78,6 +78,7 @@ class StoresController < ApplicationController
     else
       @stores = Store.all
     end
+    # binding.pry
   end
 
   private

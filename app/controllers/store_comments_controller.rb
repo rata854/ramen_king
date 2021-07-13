@@ -15,7 +15,7 @@ class StoreCommentsController < ApplicationController
     @store_comment.user_id = current_user.id
     @store_comment.store_id = @store.id
     if @store_comment.save
-      redirect_to store_store_comment_path(id: @store_comment)
+      redirect_to store_store_comment_path(id: @store_comment), notice: "口コミを投稿しました"
     else
       render :new
     end
@@ -30,7 +30,7 @@ class StoreCommentsController < ApplicationController
     @store_comment = StoreComment.find(params[:id])
     
     if @store_comment.update(store_comment_params)
-      redirect_to store_store_comment_path(id: @store_comment)
+      redirect_to store_store_comment_path(id: @store_comment), notice: "口コミを更新しました"
     else
       render :edit
     end

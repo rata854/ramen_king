@@ -8,7 +8,7 @@
             <div class="card">
               <p>第<%= i %>位</p>
               <%= link_to store_path(store.id) do %>
-                <%= attachment_image_tag(store.store_comments.order(rate: :DESC).first, :product_image, size: "288x250", fallback: "no_image.jpg") %>
+                <%= attachment_image_tag(store.store_comments.order(rate: :DESC).first, :product_image, fallback: "no_image.jpg", class: 'card-img-top') %>
               <div class="card-body text">
                 <h5 class="card-title"><%= store.store_name %></h5>
               <% end %>
@@ -30,7 +30,7 @@
             <div class="card">
               <p>第<%= i %>位</p>
               <%= link_to store_path(tonkotsu_rank.id) do %>
-                <%= attachment_image_tag(tonkotsu_rank.store_comments.where(genre: 2).order(rate: :DESC).first, :product_image, size: "288x250", fallback: "no_image.jpg") %>
+                <%= attachment_image_tag(tonkotsu_rank.store_comments.where(genre: 2).order(rate: :DESC).first, :product_image, fallback: "no_image.jpg",class: 'card-img-top') %>
               <div class="card-body text">
                 <h5 class="card-title"><%= tonkotsu_rank.store_name %></h5>
               <% end %>

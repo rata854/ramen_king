@@ -2,7 +2,7 @@
   <div class='row'>
     <div class="col-sm-12 mx-auto">
     <h2>口コミ編集</h2>
-      <%= form_with(model:[@store,@store_comment], method: :patch, local:true) do |f| %>
+      <%= form_with(model:[@store,@store_comment], url: store_store_comment_path, method: :patch, local:true) do |f| %>
       <%= render 'layouts/errors', obj: @store_comment %>
       <%= render 'form', f: f %>
         <div class="form-group">

@@ -1,68 +1,88 @@
 <div class='container'>
   <div class='row'>
-    <div class="col-sm-12 mx-auto">
+    <div class="col-sm-10 mx-auto">
 
       <div class="row justify-content-between">
         <div class="col-4"><h4><%= @store.store_name %></4></div>
           <% if user_signed_in? %>
-            <%= link_to "店舗情報編集", edit_store_path %>
+            <%= link_to "店舗情報編集", edit_store_path, class: "btn btn-success" %>
           <% end %>
       </div>
-
       <!--星評価-->
-
-      <%= render 'star_average', { rate_name: "rate" ,store: @store, score: @store.store_comments.average(:rate).round(2) } %>
-
+      <%= render 'star_average', { rate_name: "rate", store: @store, score: @store.store_comments.average(:rate).round(1) } %>
       <p><%= @store.address %></p>
-
-      <table class="table">
-        <tr>
-          <th>店舗名</th><td><%= @store.store_name %></td>
-        </tr>
-        <tr>
-          <th>店舗紹介</th><td><%= @store.store_introduction%></td>
-        </tr>
-        <tr>
-          <th>住所</th><td><%= @store.postal_code%><%= @store.address %></td>
-        </tr>
-        <tr>
-          <th>交通手段</th><td><%= @store.transportation %></td>
-        </tr>
-        <tr>
-          <th>営業日</th><td><%= @store.business_day %></td>
-        </tr>
-        <tr>
-          <th>定休日</th><td><%= @store.holiday %></td>
-        </tr>
-      </table>
-
       <div class="row justify-content-between">
-        <div class="col-4"><h4><%= @store.store_name %>の口コミ</4></div>
+        <div class="col-4"><h5><%= @store.store_name %>の情報</5></div>
           <% if user_signed_in? %>
-            <%= link_to "新規口コミ作成", new_store_store_comment_path(@store.id) %>
+            <%= link_to "新規口コミ作成", new_store_store_comment_path(@store.id), class: "btn btn-success" %>
           <% end %>
       </div>
 
-      <% @store.store_comments.each do |store_comment|%>
-       <div class="card mb-3" style="max-width: 900px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <%= attachment_image_tag(store_comment, :product_image, size: "200x200", fallback: "no_image.jpg") %>
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <%= link_to store_store_comment_path(@store.id, store_comment.id) do %>
-                <h5 class="card-title"><%= store_comment.title %></h5>
-              <% end %>
-              <%= render 'star', store: store_comment %>
-              <p>ジャンル：[<%= store_comment.genre %>]</p>
-              <p class="card-text"><%= store_comment.introduction %></p>
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="#store_information" data-toggle="tab" class="nav-link">店舗情報</a></li>
+        <li class="nav-item"><a href="#store_commnets" data-toggle="tab" class="nav-link">口コミ</a></li>
+        <li class="nav-item"><a href="#store_photos" data-toggle="tab" class="nav-link">写真</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="store_information">
+          <table class="table">
+            <tr>
+              <th>店舗名</th><td><%= @store.store_name %></td>
+            </tr>
+            <tr>
+              <th>店舗紹介</th><td><%= @store.store_introduction%></td>
+            </tr>
+            <tr>
+              <th>住所</th><td>〒<%= @store.postal_code%>&ensp;<%= @store.address %></td>
+            </tr>
+            <tr>
+              <th>交通手段</th><td><%= @store.transportation %></td>
+            </tr>
+            <tr>
+              <th>営業日</th><td><%= @store.business_day %></td>
+            </tr>
+            <tr>
+              <th>定休日</th><td><%= @store.holiday %></td>
+            </tr>
+          </table>
+      </div>
+      <div class="tab-pane" id="store_commnets">
+        <% @store.store_comments.each do |store_comment|%>
+        <div class="container">
+          <div class="row p-2">
+            <div class="col-md-4  img-hidden">
+              <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", class: 'card-img-top') %>
+            </div>
+            <div class="col-md-8">
+                <%= link_to store_store_comment_path(@store.id, store_comment.id) do %>
+                  <h5 class="card-title"><%= store_comment.title %></h5>
+                <% end %>
+                 <%= render 'star', store: store_comment %>
+                <p>ジャンル：[<%= store_comment.genre %>]</p>
+                <p class="card-text"><%= store_comment.introduction %></p>
             </div>
           </div>
         </div>
+ 
+        <% end %>
       </div>
-      <% end %>
+        <div class="tab-pane" id="store_photos">
 
+            <div class="row">
+      <% @store.store_comments.each do |store_comment|%>
+        <div class="col-md-4" >
+          <div class="card-group">
+            <div class="card">
+              <%= link_to store_store_comment_path(@store.id, store_comment.id) do %>
+                <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", class: 'card-img-top') %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+        </div>
+      </div>
 
     </div>
   </div>

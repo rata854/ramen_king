@@ -21,23 +21,85 @@
             <th></th>
           </tr>
         </thead>
+
         <% if @genre == 'しょうゆ' %>
+
           <% @soy_sauce_ranks.each do |store| %>
-            <%= render 'index', store: store %>
+            <% avg = store.store_comments.where(genre: 0).average(:rate) %>
+              <% unless avg.nil? %>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td>
+                  <%= link_to store_path(store.id) do %>
+                      <%= store.store_name %>
+                      <% end %>
+                   </td>
+                    <td><%= store.address %></td>
+                    <td><%= render 'star_average', { rate_name: "rate", store: store, score: avg.nil? ? 0 : avg.round(1) } %></td>
+                  </tr>
+                </tbody>
+              <% end %>
           <% end %>
-        <% elsif @ganre == 'みそ' %>
+
+        <% elsif @genre == 'みそ' %>
+
           <% @miso_ranks.each do |store| %>
-            <%= render 'index', store: store %>
+            <% avg = store.store_comments.where(genre: 1).average(:rate) %>
+
+              <% unless avg.nil? %>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td>
+                  <%= link_to store_path(store.id) do %>
+                      <%= store.store_name %>
+                      <% end %>
+                   </td>
+                    <td><%= store.address %></td>
+                    <td><%= render 'star_average', { rate_name: "rate", store: store, score: avg.nil? ? 0 : avg.round(1) } %></td>
+                  </tr>
+                </tbody>
+              <% end %>
           <% end %>
-        <% elsif @ganre == 'とんこつ' %>
+
+        <% elsif @genre == 'とんこつ' %>
+
           <% @tonkotsu_ranks.each do |store| %>
-            <%= render 'index', store: store %>
+            <% avg = store.store_comments.where(genre: 2).average(:rate) %>
+              <% unless avg.nil? %>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td>
+                  <%= link_to store_path(store.id) do %>
+                      <%= store.store_name %>
+                      <% end %>
+                   </td>
+                    <td><%= store.address %></td>
+                    <td><%= render 'star_average', { rate_name: "rate", store: store, score: avg.nil? ? 0 : avg.round(1) } %></td>
+                  </tr>
+                </tbody>
+              <% end %>
           <% end %>
-        <% elsif @ganre == 'しお' %>
-          <% @salt_ranks.each do |store| %>
-            <%= render 'index', store: store %>
+
+        <% elsif @genre == 'しお' %>
+            <% avg = store.store_comments.where(genre: 3).average(:rate) %>
+              <% unless avg.nil? %>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td>
+                  <%= link_to store_path(store.id) do %>
+                      <%= store.store_name %>
+                      <% end %>
+                   </td>
+                    <td><%= store.address %></td>
+                    <td><%= render 'star_average', { rate_name: "rate", store: store, score: avg.nil? ? 0 : avg.round(1) } %></td>
+                  </tr>
+                </tbody>
+              <% end %>
           <% end %>
-        <% end %>
       </table>
 
      </div>
