@@ -1,47 +1,40 @@
 <div class='container'>
   <div class='row'>
-    <div class="col-sm-12 mx-auto">
+    <div class="col-sm-10 mx-auto">
 
       <div class="row justify-content-between">
-        <div class="col-4">
+        <div class="col-6">
           <%= link_to store_path(@store_comment.store_id) do %>
             <h4><%= @store_comment.store.store_name %></h4>
           <% end %>
         </div>
           <% if @store_comment.user == current_user %>
-            <%= link_to "口コミ編集", edit_store_store_comment_path(@store, @store_comment) %>
-            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete, data: { confirm: "削除しますか？" } %>
+            <%= link_to "口コミ編集", edit_store_store_comment_path(@store, @store_comment), class: "btn btn-primary" %>
+            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-danger" %>
           <% end %>
       </div>
 
       <p><%= @store_comment.store.address %></p>
 
-      <table class="table">
-        <tr>
-          <th>
+         <div class="row p-3">
             <%= link_to user_path(@store_comment.user_id) do %>
               <%= attachment_image_tag(@store_comment.user, :profile_image, size: "50x50", fallback: "no_image.jpg") %>
               <%= @store_comment.user.name %>さんの口コミ
             <% end %>
-          </th>
-        </tr>
-        <tr>
-          <th>
-            <%= attachment_image_tag(@store_comment, :product_image, size: "300x300", fallback: "no_image.jpg") %>
+         </div>
+          <div class="row">
+            <div class="col-md-4  img-hidden">
+              <%= attachment_image_tag(@store_comment, :product_image,  fallback: "no_image.jpg", class: 'card-img-top') %>
+            </div>
+            <div class="col-md-8">
+              <h5 class="title"><%= @store_comment.title %></h5>
             <p>評価</p>
             <%= render 'stores/star', store: @store_comment %>
-          </th>
-        </tr>
-        <tr>
-          <th>タイトル</th><td><%= @store_comment.title %></td>
-        </tr>
-        <tr>
-          <th>口コミ</th><td><%= @store_comment.introduction %></td>
-        </tr>
-        <tr>
-          <th>ジャンル</th><td><%= @store_comment.genre %></td>
-        </tr>
-      </table>
+            <p>ジャンル：[<%= @store_comment.genre %>]</p>
+            </div>
+          </div>
+          <%= @store_comment.introduction %>
+
 
     </div>
   </div>
