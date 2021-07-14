@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_082904) do
+ActiveRecord::Schema.define(version: 2021_07_14_050009) do
 
   create_table "store_comments", force: :cascade do |t|
     t.integer "user_id"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_082904) do
   create_table "stores", force: :cascade do |t|
     t.integer "user_id"
     t.string "store_name"
-    t.string "store_introduction"
+    t.string "menu"
     t.string "postal_code"
     t.string "address"
     t.string "transportation"

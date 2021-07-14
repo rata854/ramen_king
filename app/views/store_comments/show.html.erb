@@ -33,7 +33,7 @@
             <p>ジャンル：[<%= @store_comment.genre %>]</p>
             </div>
           </div>
-          <%= @store_comment.introduction %>
+          <%= simple_format(@store_comment.introduction) %>
 
 
     </div>
