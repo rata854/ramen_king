@@ -57,7 +57,7 @@
               <% end %>
               <%= render 'stores/star', store: store_comment %>
               <p>ジャンル：[<%= store_comment.genre %>]</p>
-              <p class="card-text"><%= store_comment.introduction.truncate(90) %>
+              <p class="card-text"><%= store_comment.introduction.truncate(75) %>
               <%= link_to "詳細をみる", store_store_comment_path(@user.id, store_comment.id) %></p>
             </div>
           </div>
