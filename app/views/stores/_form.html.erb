@@ -1,33 +1,36 @@
-    <%= form_with model:store, local:true do |f| %>
-      <div class="form-group">
-        <%= f.label :"店舗名" %>
-        <%= f.text_field :store_name, class: "form-control store_name" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :"店舗紹介" %>
-        <%= f.text_field :store_introduction, class: "form-control store_introduction" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :"郵便番号" %>
-        <%= f.text_field :postal_code, class: "form-control postal_code" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :"住所" %>
-        <%= f.text_field :address, class: "form-control address" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :"交通手段" %>
-        <%= f.text_field :transportation, class: "form-control transportation" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :"営業日" %>
-        <%= f.text_field :business_day, class: "form-control business_day" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :"定休日" %>
-        <%= f.text_field :holiday, class: "form-control holiday" %>
-      </div>
-      <div class="form-group">
-        <%= f.submit "botton" , class: 'btn btn-secondary' %>
-      </div>
-    <% end %>
+<%= form_with model:store, local:true do |f| %>
+  <div class="form-group">
+    <%= f.label :"店舗名" %>
+    <%= f.text_field :store_name, placeholder: "店舗名", class: "form-control store_name", autofocus: true %>
+  </div>
+  <div class="form-group">
+    <%= f.label :"郵便番号" %>
+    <%= f.text_field :postal_code, placeholder: "(ハイフンあり)例：111-1111", class: "form-control postal_code" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :"店舗住所" %>
+    <%= f.text_field :address, placeholder: "店舗住所", class: "form-control address" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :"交通手段" %>
+    <%= f.text_field :transportation, placeholder: "例：東京駅徒歩5分", class: "form-control transportation" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :"メニュー" %>
+    <%= f.text_area :menu, placeholder: '例：
+・しょうゆラーメン700円
+・みそラーメン750円
+・餃子200円', class: "form-control menu", :size => "5x5" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :"営業日" %>
+    <%= f.text_field :business_day, placeholder: '例：[月〜金]11:00~15:00,17:00~21:00', class: "form-control business_day" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :"定休日" %>
+    <%= f.text_field :holiday, placeholder: '定休日', class: "form-control holiday" %>
+  </div>
+  <div class="form-group">
+    <%= f.submit class: 'btn btn-secondary' %>
+  </div>
+<% end %>

@@ -37,56 +37,26 @@ class StoresController < ApplicationController
 
   def search
     selection = params[:keyword]
-    @stores = Store.sort(selection)
     @genre = params[:genre]
-    
-    # if @genre == 'しょうゆ'
-    # if params[:genre]
-      # @soy_sauce_ranks = Store.left_joins(:store_comments).distinct.sort_by do |soy_sauce_rank|
-      #                     ranks = soy_sauce_rank.store_comments.where(genre: 0)
-      #                     if ranks.present?
-      #                       ranks.map(&:rate).sum / ranks.size
-      #                     else
-      #                       0
-      #                     end
-      #                   end.reverse
-    # elsif @genre == 'みそ'
-      # @miso_ranks = Store.left_joins(:store_comments).distinct.sort_by do |miso_rank|
-      #                     ranks = miso_rank.store_comments.where(genre: 1)
-      #                     if ranks.present?
-      #                       ranks.map(&:rate).sum / ranks.size
-      #                     else
-      #                       0
-      #                     end
-      #                   end.reverse
-    # elsif @genre == 'とんこつ'
-      # @tonkotsu_ranks = Store.left_joins(:store_comments).distinct.sort_by do |tonkotsu_rank|
-      #                     ranks = tonkotsu_rank.store_comments.where(genre: 2)
-      #                     if ranks.present?
-      #                       ranks.map(&:rate).sum / ranks.size
-      #                     else
-      #                       0
-      #                     end
-      #                   end.reverse
-    # elsif @genre == 'しお'
-      # @salt_ranks = Store.left_joins(:store_comments).distinct.sort_by do |salt_rank|
-      #                     ranks = salt_rank.store_comments.where(genre: 3)
-      #                     if ranks.present?
-      #                       ranks.map(&:rate).sum / ranks.size
-      #                     else
-      #                       0
-      #                     end
-      #                   end.reverse
-    # else
-    #   @stores = Store.all
-    # end
+    if selection == 'new'
+      @stores = Store.left_joins(:store_comments).where(store_comments:{ genre: params[:genre] }).distinct.order(created_at: :DESC)
+    else
+      @stores = Store.left_joins(:store_comments).where(store_comments:{ genre: params[:genre] }).distinct.sort_by do |store|
+                ranks = store.store_comments.where(store_comments:{ genre: params[:genre] })
+                    if ranks.present?
+                      ranks.map(&:rate).sum / ranks.size
+                    else
+                      0
+                    end
+              end.reverse
+    end
 
   end
 
   private
 
   def store_params
-    params.require(:store).permit(:store_name, :store_introduction, :postal_code,
+    params.require(:store).permit(:store_name, :menu, :postal_code, :latitude, :longitude,
                                   :address, :transportation, :business_day, :holiday)
   end
 

@@ -1,1 +1,29 @@
-<%= render 'index', stores: @stores %>
+<div class='container'>
+  <div class='row'>
+    <div class="col-sm-10 mx-auto">
+      <!--テーブルの見出し、検索フォーム、新規店舗登録ボタンのパーシャル-->
+      <%= render 'index' %>
+        <tbody>
+          <% @stores.each do |store| %>
+          <tr>
+            <td></td>
+            <td>
+              <%= link_to store_path(store.id) do %>
+                  <%= store.store_name %>
+              <% end %>
+            </td>
+            <td><%= store.address %></td>
+            <td>
+              <% avg = store.store_comments.average(:rate) %>
+                <% unless avg.nil? %>
+                  <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+     </div>
+   </div>
+ </div>
+

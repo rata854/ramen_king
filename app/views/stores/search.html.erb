@@ -1,1 +1,60 @@
-<%= render 'index', stores: @stores %>
+<div class='container'>
+  <div class='row'>
+    <div class="col-sm-10 mx-auto">
+      <!--テーブルの見出し、検索フォーム、新規店舗登録ボタンのパーシャル-->
+      <%= render 'index' %>
+        <tbody>
+          <% @stores.each.with_index(1) do |store, index| %>
+          <tr>
+            <td class="text-center">
+              <% case index when 1 %>
+                <i class="fas fa-crown" style='color: gold;'>1位</i>
+              <% when 2 %>
+                <i class="fas fa-crown" style='color: silver;'>2位</i>
+              <% when 3 %>
+                <i class="fas fa-crown" style='color: orange;'>3位</i>
+              <% else %>
+                <%= index %>位
+              <% end %>          
+            </td>
+            <td>
+          <%= link_to store_path(store.id) do %>
+              <%= store.store_name %>
+              <% end %>
+           </td>
+            <td><%= store.address %></td>
+            <td>
+              <% if @genre == 'しょうゆ' %>
+                <% avg = store.store_comments.where(genre: 0).average(:rate) %>
+                  <% unless avg.nil? %>
+                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                  <% end %>
+              <% elsif @genre == 'みそ' %>
+                <% avg = store.store_comments.where(genre: 1).average(:rate) %>
+                  <% unless avg.nil? %>
+                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                  <% end %>
+              <% elsif @genre == 'とんこつ' %>
+                <% avg = store.store_comments.where(genre: 2).average(:rate) %>
+                  <% unless avg.nil? %>
+                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                  <% end %>
+              <% elsif @genre == 'しお' %>
+                <% avg = store.store_comments.where(genre: 3).average(:rate) %>
+                  <% unless avg.nil? %>
+                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                  <% end %>
+              <% else %>
+                <% avg = store.store_comments.average(:rate) %>
+                  <% unless avg.nil? %>
+                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                  <% end %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+          <% end %>
+      </table>
+     </div>
+   </div>
+ </div>
