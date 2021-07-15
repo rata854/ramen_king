@@ -1,7 +1,7 @@
 <div class='container'>
   <div class='row'>
-    <div class="col-sm-12 mx-auto">
-    <h2>新規口コミ</h2>
+    <div class="col-sm-12 col-md-8 col-lg-8 mx-auto">
+    <h4>新規口コミ</h4>
       <%= form_with(model:[@store,@store_comment], url: store_store_comments_path, local:true) do |f| %>
       <%= render 'layouts/errors', obj: @store_comment %>
       <%= render 'form', f: f %>

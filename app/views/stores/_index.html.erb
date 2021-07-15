@@ -1,25 +1,20 @@
-<div class='container'>
-  <div class='row'>
-    <div class="col-sm-10 mx-auto">
-
-      <div class="row justify-content-between">
+ <div class="row justify-content-between">
         <div class="col-4"><h4>店舗一覧</4></div>
           <% if user_signed_in? %>
             <%= link_to "新規店舗登録", new_store_path %>
           <% end %>
       </div>
-      
       <table class="table table-hover">
         <thead class="thead-light">
           <tr>
-            <th scope="col">#</th>
+            <th scope="col"></th>
             <th scope="col">店舗名</th>
             <th scope="col">住所</th>
             <th>
               <div class="search-form">
               <%= form_with url: search_path, local: true, method: :get do |f| %>
                 <%= f.select :keyword ,([['新着順', 'new'], ['評価順', 'ranking']]) %>
-                <%= f.select :genre, StoreComment.genres.keys.to_a, {} %>
+                <%= f.select :genre, StoreComment.genres.keys.to_a, { selected: @genre } %>
                 <%= f.submit "検索" %>
               <% end %>
               </div>
@@ -27,22 +22,3 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          <% stores.each do |store| %>
-          <tr>
-            <th></th>
-            <td>
-          <%= link_to store_path(store.id) do %>
-              <%= store.store_name %>
-              <% end %>
-           </td>
-            <td><%= store.address %></td>
-            <td><%= render 'star_average', { rate_name: "rate" ,store: store, score: store.store_comments.average(:rate).round(1) } %></td>
-          </tr>
-        </tbody>
-           <% end %>
-      </table>
-
-     </div>
-   </div>
- </div>

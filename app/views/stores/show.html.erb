@@ -9,7 +9,10 @@
           <% end %>
       </div>
       <!--星評価-->
-      <%= render 'star_average', { rate_name: "rate", store: @store, score: @store.store_comments.average(:rate).round(1) } %>
+      <% avg = @store.store_comments.average(:rate) %>
+        <% unless avg.nil? %>
+          <%= render 'star_average', { rate_name: "rate", store: @store, score: avg.nil? ? 0 : avg.round(1) } %>
+        <% end %>
       <p><%= @store.address %></p>
       <div class="row justify-content-between">
         <div class="col-4"><h5><%= @store.store_name %>の情報</5></div>
@@ -30,13 +33,49 @@
               <th>店舗名</th><td><%= @store.store_name %></td>
             </tr>
             <tr>
-              <th>店舗紹介</th><td><%= @store.store_introduction%></td>
-            </tr>
-            <tr>
-              <th>住所</th><td>〒<%= @store.postal_code%>&ensp;<%= @store.address %></td>
+              <th>住所</th>
+              <td>
+                〒<%= @store.postal_code%>&ensp;<%= @store.address %>
+
+              <div id="map"></div>
+              <script>
+
+                function initMap() {
+
+                  var test ={lat: <%= @store.latitude %>, lng: <%= @store.longitude %>};
+                  var map = new google.maps.Map(document.getElementById('map'), {
+                      zoom: 15,
+                      center: test
+                  });
+
+                  var transitLayer = new google.maps.TransitLayer();
+                  transitLayer.setMap(map);
+
+                  var contentString = '住所：<%= @store.address %>';
+                  var infowindow = new google.maps.InfoWindow({
+                      content: contentString
+                  });
+
+                  var marker = new google.maps.Marker({
+                      position:test,
+                      map: map,
+                      title: contentString
+                  });
+
+                  marker.addListener('click', function() {
+                      infowindow.open(map, marker);
+                  });
+                }
+              </script>
+             <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLEMAP'] %>&callback=initMap"type="text/javascript"></script>
+
+                </td>
             </tr>
             <tr>
               <th>交通手段</th><td><%= @store.transportation %></td>
+            </tr>
+            <tr>
+              <th>メニュー</th><td><%= simple_format(@store.menu) %></td>
             </tr>
             <tr>
               <th>営業日</th><td><%= @store.business_day %></td>
@@ -63,7 +102,7 @@
             </div>
           </div>
         </div>
- 
+
         <% end %>
       </div>
         <div class="tab-pane" id="store_photos">

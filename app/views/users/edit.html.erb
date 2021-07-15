@@ -1,20 +1,20 @@
 <div class='container'>
   <div class='row'>
-    <div class="col-sm-12 mx-auto">
-    <h2>User info</h2>
+    <div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
+    <h4>ユーザー情報編集</h4>
     <%= form_with model:@user, local:true do |f| %>
       <%= render 'layouts/errors', obj: @user %>
       <div class="form-group">
-        <%= f.label :name %>
-        <%= f.text_field :name, class: "form-control name" %>
+        <%= f.label :"ユーザーネーム" %>
+        <%= f.text_field :name, placeholder: "ユーザーネーム", class: "form-control name", autofocus: true %>
       </div>
      <div class="form-group">
-        <%= f.label :image %>
+        <%= f.label :"プロフィール画像" %>
         <%= f.attachment_field :profile_image, class: "form-control-file user_image" %>
       </div>
       <div class="form-group">
-        <%= f.label :introduction %>
-        <%= f.text_area :introduction, class: "form-control introduction" %>
+        <%= f.label :"自己紹介" %>
+        <%= f.text_area :introduction, placeholder: "例：好きなラーメンや出身地などを書きましょう", class: "form-control introduction" %>
       </div>
       <div class="form-group">
         <%= f.submit class: 'btn btn-secondary' %>
