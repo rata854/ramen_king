@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :store_comments, dependent: :destroy
   attachment :profile_image
   
-  validates :name, length: {maximum: 20, minimum: 2}, uniqueness: true
+  validates :name, length: {maximum: 15, minimum: 2}, uniqueness: true
   validates :introduction, length: {maximum: 100}
   
 end
