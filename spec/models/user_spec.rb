@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe User, "Userモデルのテスト", type: :model do
-  describe 'userモデルのテスト' do
+  describe 'Userモデルのテスト' do
 
     before do
       @other_user = FactoryBot.create(:user)
@@ -43,14 +43,14 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
         name = Faker::Lorem.characters(number: 16)
         user = build(:user, name: name)
         expect(user).to_not be_valid
-        # expect(user.errors[:name]).to include("can't be blank")
+        expect(user.errors[:name]).to include(("is too long (maximum is 15 characters)"))
       end
 
       it '一意性があること' do
         user = build(:user)
         user.name = @other_user.name
         expect(user).to_not be_valid
-        # expect(user.errors[:name]).to include("can't be blank")
+        expect(user.errors[:name]).to include("has already been taken")
       end
     end
 
@@ -65,13 +65,19 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
         introduction = Faker::Lorem.characters(number: 101)
         user = build(:user, introduction: introduction)
         expect(user).to_not be_valid
-        # expect(user.errors[:introduction]).to include("can't be blank")
+        expect(user.errors[:introduction]).to include("is too long (maximum is 100 characters)")
       end
     end
 
     context 'storesモデルとの関係' do
       it '1:Nとなっている' do
         expect(User.reflect_on_association(:stores)).to be_present
+      end
+    end
+    
+    context 'store_commentsモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(User.reflect_on_association(:store_comments)).to be_present
       end
     end
 
