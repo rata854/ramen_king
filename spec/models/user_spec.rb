@@ -4,20 +4,76 @@ require 'rails_helper'
 
 RSpec.describe User, "Userモデルのテスト", type: :model do
   describe 'userモデルのテスト' do
-    it "有効な投稿内容の場合は保存されるか" do
-      expect(FactoryBot.build(:user)).to be_valid
+
+    before do
+      @other_user = FactoryBot.create(:user)
     end
-  end
-  context 'nameカラム' do
-    it 'naemが空白の場合にバリデーションチェックされ空白のエラーメッセージが返ってきているか' do
-      user = User.new(name: nil)
-      expect(user).to be_invalid
-      expect(user.errors[:name].to include("can't be blank"))
+
+    it "名前、emailアドレス、パスワードがあれば登録できる" do
+      expect(@other_user).to be_valid
     end
-    it 'nameが2文字以上であること（1文字は☓）' 
-    it 'nameが2文字以上であること（2文字は◯）' 
-    it 'nameが15字以下であること（15字は◯）'
-    it 'nameが15字以下であること（15字は☓）'
-    it 'nameに一意性があること'
+
+    context 'nameカラム' do
+      it '空白だと登録できない' do
+        user = build(:user, name: '')
+        expect(user).to_not be_valid
+        expect(user.errors[:name]).to include("can't be blank")
+      end
+
+      it '2文字以上であること（1文字は☓）' do
+        name = Faker::Lorem.characters(number: 1)
+        user = build(:user, name: name)
+        expect(user).to_not be_valid
+        expect(user.errors[:name]).to include("is too short (minimum is 2 characters)")
+      end
+
+      it '2文字以上であること（2文字は◯）'  do
+        name = Faker::Lorem.characters(number: 2)
+        user = build(:user, name: name)
+        expect(user).to be_valid
+      end
+
+      it '15字以下であること（15字は◯）' do
+        name = Faker::Lorem.characters(number: 15)
+        user = build(:user, name: name)
+        expect(user).to be_valid
+      end
+
+      it '15字以下であること（16字は☓）' do
+        name = Faker::Lorem.characters(number: 16)
+        user = build(:user, name: name)
+        expect(user).to_not be_valid
+        # expect(user.errors[:name]).to include("can't be blank")
+      end
+
+      it '一意性があること' do
+        user = build(:user)
+        user.name = @other_user.name
+        expect(user).to_not be_valid
+        # expect(user.errors[:name]).to include("can't be blank")
+      end
+    end
+
+    context 'introductionカラム' do
+      it '100字以下であること（100字は◯）' do
+        introduction = Faker::Lorem.characters(number: 100)
+        user = build(:user, introduction: introduction)
+        expect(user).to be_valid
+      end
+
+      it '100字以下であること（101字は☓）' do
+        introduction = Faker::Lorem.characters(number: 101)
+        user = build(:user, introduction: introduction)
+        expect(user).to_not be_valid
+        # expect(user.errors[:introduction]).to include("can't be blank")
+      end
+    end
+
+    context 'storesモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(User.reflect_on_association(:stores)).to be_present
+      end
+    end
+
   end
 end
