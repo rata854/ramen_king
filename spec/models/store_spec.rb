@@ -9,8 +9,10 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       @store = FactoryBot.create(:store)
     end
 
-    it "全ての店舗情報があれば登録できる" do
-      expect(@store).to be_valid
+    context '登録ができるか' do
+      it "全ての店舗情報があれば登録できる" do
+        expect(@store).to be_valid
+      end
     end
 
     context 'store_nameカラム' do
@@ -44,6 +46,7 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       it '整数のみで入力されているか' do
         store = build(:store, postal_code: 'y00y000')
         expect(store.postal_code.integer?).to eq(true)
+        expect(store.errors[:postal_code]).to include("can't be blank")
       end
       
       it '7桁で入力されているか' do
