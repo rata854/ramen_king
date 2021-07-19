@@ -1,14 +1,13 @@
 <div class='container px-5 px-sm-0'>
   <div class='row'>
     <div class='col-md-4'>
-      <h2>User info</h2>
-      <table class='table'>
-        <tr><%= attachment_image_tag(@user, :profile_image, size: "200x200", fallback: "no_image.jpg") %></tr>
+      <table class='table table-borderless'>
+        <tr><%= attachment_image_tag(@user, :profile_image, size: "200x200", fallback: "no_image.jpg", class: "rounded-circle d-block mx-auto") %></tr>
         <tr>
-      	  <th><%= @user.name %></th>
+      	  <th class="text-center"><%= @user.name %></th>
         </tr>
         <tr>
-      	  <th><%= @user.introduction %></th>
+      	  <th class="text-center"><%= simple_format(@user.introduction) %></th>
         </tr>
       </table>
 
@@ -18,13 +17,23 @@
         <% end %>
       </div>
       
-    <h5 class='p-2'><%= @user.name %>さんのランキング</h5>
-    <% @my_ranks.each.with_index(1) do |my_rank, i| %>
+    <h5 class='p-2 text-center'><i class="fas fa-trophy" style='color: gold;'></i><%= @user.name %>さんのランキング</h5>
+    <% @my_ranks.each.with_index(1) do |my_rank, index| %>
       <% avg = my_rank.store_comments.where(user_id: @user.id).average(:rate) %>
       <% unless avg.nil? %>
         <table class='table'>
             <tr>
-              <th><p>第<%= i %>位</p></th>
+            <th class="text-left">
+              <% case index when 1 %>
+                <i class="fas fa-crown" style='color: gold;'></i>1位
+              <% when 2 %>
+                <i class="fas fa-crown" style='color: silver;'></i>2位
+              <% when 3 %>
+                <i class="fas fa-crown" style='color: orange;'></i>3位
+              <% else %>
+                <%= index %>位
+              <% end %>          
+            </th>
               <th>
                 <%= link_to store_path(my_rank.id) do %>
                   <%= my_rank.store_name %>
@@ -41,29 +50,30 @@
 
     </div>
     <div class='col-md-7 offset-md-1'>
-      <h4><%= @user.name %>さんの口コミ</h4>
-      <p>口コミ<%= @user.store_comments.count %>件</p>
-
-      <% @user.store_comments.each do |store_comment|%>
-       <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <%= attachment_image_tag(store_comment, :product_image, fallback: "no_image.jpg", class: 'card-img-top') %>
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
+      <h4><%= @user.name %>さんの口コミ数<%= @user.store_comments.count %>件</h4>
+            <% @user.store_comments.each do |store_comment|%>
+          <div class="card m-3">
+            <div class="card-header">
               <%= link_to store_store_comment_path(@user.id, store_comment.id) do %>
                 <h5 class="card-title"><%= store_comment.title %></h5>
               <% end %>
-              <%= render 'stores/star', store: store_comment %>
-              <p>ジャンル：[<%= store_comment.genre %>]</p>
-              <p class="card-text"><%= store_comment.introduction.truncate(75) %>
-              <%= link_to "詳細をみる", store_store_comment_path(@user.id, store_comment.id) %></p>
             </div>
+             <div class="card-body">
+               <div class="card-img-left">
+                 <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", size: '200x200', class: "float-left") %>
+               </div>
+                 <div class="card-text">
+                 <%= render 'stores/star', store: store_comment %>
+                 <p>ジャンル：[<%= store_comment.genre %>]</p>
+                 <p class="card-text"><%= store_comment.introduction.truncate(60) %>
+                 <%= link_to "詳細をみる", store_store_comment_path(@user.id, store_comment.id) %></p>
+               </div>
+             </div>
+               <div class="card-footer text-muted">
+    2 days ago
+  </div>
           </div>
-        </div>
-      </div>
-      <% end %>
+        <% end %>
     
     </div>
   </div>

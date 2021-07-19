@@ -13,7 +13,7 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
       it "名前、emailアドレス、パスワードがあれば登録できる" do
         expect(@other_user).to be_valid
       end
-      e
+    end
 
     context 'nameカラム' do
       it '空白だと登録できない' do

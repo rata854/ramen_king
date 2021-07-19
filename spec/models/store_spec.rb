@@ -40,18 +40,27 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       it '空白だと登録できない' do
         store = build(:store, postal_code: '')
         expect(store).to_not be_valid
-        expect(store.errors[:postal_code]).to include("can't be blank")
+        # expect(store.errors[:postal_code]).to_not include("can't be blank", "is not a number", "is the wrong length (should be 7 characters)")
       end
       
-      it '整数のみで入力されているか' do
-        store = build(:store, postal_code: 'y00y000')
-        expect(store.postal_code.integer?).to eq(true)
-        expect(store.errors[:postal_code]).to include("can't be blank")
+      # it '整数のみで入力されているか' do
+      #   store = build(:store, postal_code: 'y00y000')
+      #   expect(store.postal_code.number).to_not eq(true)
+      #   expect(store.errors[:postal_code]).to include("can't be blank")
+      # end
+      
+      it '7桁以外は登録出来ない（6桁は☓）' do
+        store = build(:store, postal_code: '123456')
+        expect(store.postal_code.length).to_not eq(7)
+        expect(store.errors[:postal_code]).to_not include("can't be blank", "is not a number", "is the wrong length (should be 7 characters)")
       end
       
-      it '7桁で入力されているか' do
-        expect(@store.postal_code.length).to eq(7)
+      it '7桁以外は登録出来ない（8桁は☓）' do
+        store = build(:store, postal_code: '12345678')
+        expect(store.postal_code.length).to_not eq(7)
+        expect(store.errors[:postal_code]).to_not include("can't be blank", "is not a number", "is the wrong length (should be 7 characters)")
       end
+      
     end
     
     context 'addressカラム' do
@@ -83,6 +92,18 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
         store = build(:store, holiday: '')
         expect(store).to_not be_valid
         expect(store.errors[:holiday]).to include("can't be blank")
+      end
+    end
+    
+    context 'userモデルとの関係' do
+      it 'N:1となっている' do
+        expect(Store.reflect_on_association(:user)).to be_present
+      end
+    end
+    
+    context 'store_commentsモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(Store.reflect_on_association(:store_comments)).to be_present
       end
     end
 

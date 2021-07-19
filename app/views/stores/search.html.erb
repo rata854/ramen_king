@@ -7,15 +7,17 @@
           <% @stores.each.with_index(1) do |store, index| %>
           <tr>
             <td class="text-center">
-              <% case index when 1 %>
-                <i class="fas fa-crown" style='color: gold;'>1位</i>
-              <% when 2 %>
-                <i class="fas fa-crown" style='color: silver;'>2位</i>
-              <% when 3 %>
-                <i class="fas fa-crown" style='color: orange;'>3位</i>
-              <% else %>
-                <%= index %>位
-              <% end %>          
+              <% unless @selection == 'new' %>
+                <% case index when 1 %>
+                  <i class="fas fa-crown" style='color: gold;'></i>1位
+                <% when 2 %>
+                  <i class="fas fa-crown" style='color: silver;'></i>2位
+                <% when 3 %>
+                  <i class="fas fa-crown" style='color: orange;'></i>3位
+                <% else %>
+                  <%= index %>位
+                <% end %>
+              <% end %>
             </td>
             <td>
           <%= link_to store_path(store.id) do %>

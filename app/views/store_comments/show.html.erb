@@ -18,23 +18,27 @@
 
          <div class="row p-3">
             <%= link_to user_path(@store_comment.user_id) do %>
-              <%= attachment_image_tag(@store_comment.user, :profile_image, size: "50x50", fallback: "no_image.jpg") %>
+              <%= attachment_image_tag(@store_comment.user, :profile_image, fallback: "no_image.jpg", size: '50x50', class: 'rounded-circle') %>
               <%= @store_comment.user.name %>さんの口コミ
             <% end %>
          </div>
-          <div class="row">
-            <div class="col-md-4  img-hidden">
-              <%= attachment_image_tag(@store_comment, :product_image,  fallback: "no_image.jpg", class: 'card-img-top') %>
-            </div>
-            <div class="col-md-8">
-              <h5 class="title"><%= @store_comment.title %></h5>
-            <p>評価</p>
-            <%= render 'stores/star', store: @store_comment %>
-            <p>ジャンル：[<%= @store_comment.genre %>]</p>
-            </div>
-          </div>
-          <%= simple_format(@store_comment.introduction) %>
+ 
 
+          <div class="card m-3">
+            <div class="card-header">
+              <h5 class="title"><%= @store_comment.title %></h5>
+            </div>
+             <div class="card-body">
+               <div class="card-img-left">
+                 <%= attachment_image_tag(@store_comment, :product_image, fallback: "no_image.jpg", size: '200x200', class: "float-left") %>
+               </div>
+                 <div class="card-text">
+                 <%= render 'stores/star', store: @store_comment %>
+                 <p>ジャンル：[<%= @store_comment.genre %>]</p>
+               </div>
+             </div>
+                 <p class="card-text"><%= @store_comment.introduction %></p>
+          </div>
 
     </div>
   </div>

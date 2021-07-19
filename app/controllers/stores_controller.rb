@@ -36,9 +36,9 @@ class StoresController < ApplicationController
   end
 
   def search
-    selection = params[:keyword]
+    @selection = params[:keyword]
     @genre = params[:genre]
-    if selection == 'new'
+    if @selection == 'new'
       @stores = Store.left_joins(:store_comments).where(store_comments:{ genre: params[:genre] }).distinct.order(created_at: :DESC)
     else
       @stores = Store.left_joins(:store_comments).where(store_comments:{ genre: params[:genre] }).distinct.sort_by do |store|
@@ -50,7 +50,6 @@ class StoresController < ApplicationController
                     end
               end.reverse
     end
-
   end
 
   private
