@@ -16,7 +16,7 @@
          <%= link_to '編集',edit_user_path(@user),class: "btn btn-outline-secondary btn-block" %>
         <% end %>
       </div>
-      
+
     <h5 class='p-2 text-center'><i class="fas fa-trophy" style='color: gold;'></i><%= @user.name %>さんのランキング</h5>
     <% @my_ranks.each.with_index(1) do |my_rank, index| %>
       <% avg = my_rank.store_comments.where(user_id: @user.id).average(:rate) %>
@@ -32,7 +32,7 @@
                 <i class="fas fa-crown" style='color: orange;'></i>3位
               <% else %>
                 <%= index %>位
-              <% end %>          
+              <% end %>
             </th>
               <th>
                 <%= link_to store_path(my_rank.id) do %>
@@ -50,31 +50,17 @@
 
     </div>
     <div class='col-md-7 offset-md-1'>
-      <h4><%= @user.name %>さんの口コミ数<%= @user.store_comments.count %>件</h4>
+      <h4><i class="fas fa-comments"></i>&ensp;<%= @user.name %>さんの口コミ数<%= @user.store_comments.count %>件</h4>
             <% @user.store_comments.each do |store_comment|%>
-          <div class="card m-3">
-            <div class="card-header">
-              <%= link_to store_store_comment_path(@user.id, store_comment.id) do %>
-                <h5 class="card-title"><%= store_comment.title %></h5>
-              <% end %>
+            <!--フッダーを除くカードのパーシャル-->
+              <%= render 'store_comments/comment', user: @user, store_comment: store_comment %>
+              <div class="col-6">店舗名：<%= store_comment.store.store_name %></div>
+                投稿日:<%= store_comment.created_at.strftime('%Y/%m/%d') %>&ensp;
+              </div>
             </div>
-             <div class="card-body">
-               <div class="card-img-left">
-                 <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", size: '200x200', class: "float-left") %>
-               </div>
-                 <div class="card-text">
-                 <%= render 'stores/star', store: store_comment %>
-                 <p>ジャンル：[<%= store_comment.genre %>]</p>
-                 <p class="card-text"><%= store_comment.introduction.truncate(60) %>
-                 <%= link_to "詳細をみる", store_store_comment_path(@user.id, store_comment.id) %></p>
-               </div>
-             </div>
-               <div class="card-footer text-muted">
-    2 days ago
-  </div>
           </div>
         <% end %>
-    
+
     </div>
   </div>
 </div>

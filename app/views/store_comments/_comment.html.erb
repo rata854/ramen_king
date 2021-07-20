@@ -1,0 +1,19 @@
+<div class="card m-3">
+  <div class="card-header">
+    <%= link_to store_store_comment_path(user.id, store_comment.id) do %>
+      <h5 class="card-title"><%= store_comment.title %></h5>
+    <% end %>
+  </div>
+   <div class="card-body">
+     <div class="card-img-left">
+       <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", size: '200x200', class: "float-left") %>
+     </div>
+       <div class="card-text">
+       <%= render 'stores/star', store: store_comment %>
+       <p>ジャンル：[<%= store_comment.genre %>]</p>
+       <p class="card-text"><%= store_comment.introduction.truncate(60) %>
+       <%= link_to "詳細をみる", store_store_comment_path(user.id, store_comment.id) %></p>
+     </div>
+   </div>
+     <div class="card-footer text-muted">
+        <div class="row justify-content-between">

@@ -22,12 +22,12 @@
       </div>
 
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#store_information" data-toggle="tab" class="nav-link">店舗情報</a></li>
+        <li class="nav-item"><a href="#store_information" data-toggle="tab" class="nav-link active">店舗情報</a></li>
         <li class="nav-item"><a href="#store_commnets" data-toggle="tab" class="nav-link">口コミ</a></li>
         <li class="nav-item"><a href="#store_photos" data-toggle="tab" class="nav-link">写真</a></li>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane active" id="store_information">
+        <div class="tab-pane active " id="store_information">
           <table class="table">
             <tr>
               <th>店舗名</th><td><%= @store.store_name %></td>
@@ -51,30 +51,19 @@
             <tr>
               <th>定休日</th><td><%= @store.holiday %></td>
             </tr>
+
           </table>
       </div>
       <div class="tab-pane" id="store_commnets">
         <% @store.store_comments.each do |store_comment|%>
-          <div class="card m-3">
-            <div class="card-header">
-              <%= link_to store_store_comment_path(@store.id, store_comment.id) do %>
-                <h5 class="card-title"><%= store_comment.title %></h5>
-              <% end %>
+          <%= render 'store_comments/comment', user: @store, store_comment: store_comment %>
+                <div class="col-6">投稿者：<%= store_comment.user.name %></div>
+                投稿日:<%= store_comment.created_at.strftime('%Y/%m/%d') %>&ensp;
+              </div>
             </div>
-             <div class="card-body">
-               <div class="card-img-left">
-                 <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", size: '200x200', class: "float-left") %>
-               </div>
-                 <div class="card-text">
-                 <%= render 'star', store: store_comment %>
-                 <p>ジャンル：[<%= store_comment.genre %>]</p>
-                 <p class="card-text"><%= store_comment.introduction.truncate(60) %>
-                 <%= link_to "詳細をみる", store_store_comment_path(@store.id, store_comment.id) %></p>
-               </div>
-             </div>
           </div>
         <% end %>
-      </div>
+        </div>
       
         <div class="tab-pane" id="store_photos">
 
