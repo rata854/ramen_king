@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
     <a class="navbar-brand" href="/"><span>らあめんKING</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,26 +9,26 @@
       <ul class="navbar-nav ml-auto">
       <% if user_signed_in? %>
         <li class="nav-item ml-5 ">
-          <%= link_to "マイページ", user_path(current_user), class: "nav-link active" %>
+          <%= link_to "マイページ", user_path(current_user), class: "nav-link" %>
         </li>
         <li class="nav-item ml-5">
-          <%= link_to "店舗一覧", stores_path, class: "nav-link active" %>
+          <%= link_to "店舗一覧", stores_path, class: "nav-link" %>
         </li>
         <li class="nav-item ml-5">
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link active" %>
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
         </li>
       <% else %>
         <li class="nav-item ml-5">
-          <%= link_to "店舗一覧", stores_path, class: "nav-link active" %>
+          <%= link_to "店舗一覧", stores_path, class: "nav-link" %>
         </li>
         <li class="nav-item ml-5">
-          <%= link_to "サイト紹介", about_path, class: "nav-link active" %>
+          <%= link_to "サイト紹介", about_path, class: "nav-link" %>
         </li>
         <li class="nav-item ml-5">
-          <%= link_to "新規登録", new_user_registration_path, class: "nav-link active" %>
+          <%= link_to "新規登録", new_user_registration_path, class: "nav-link" %>
         </li>
         <li class="nav-item ml-5">
-          <%= link_to "ログイン", new_user_session_path, class: "nav-link active" %>
+          <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
         </li>
       <% end %>
       </div>

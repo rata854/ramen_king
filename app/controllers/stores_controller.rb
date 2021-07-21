@@ -1,12 +1,17 @@
 class StoresController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index]
+  before_action :authenticate_user!, except: [:show, :index, :search]
 
   def index
-    @stores = Store.all
+    @stores = Store.page(params[:page]).per(10)
   end
 
   def show
     @store = Store.find(params[:id])
+    # comments = []
+    # Store.store_comments.each do |store_comment|
+    #   comments << store_comment
+    # end
+    # @store_comments = Kaminari.paginate_array(comments).page(params[:page]).per(3)
   end
 
   def new
@@ -39,16 +44,16 @@ class StoresController < ApplicationController
     @selection = params[:keyword]
     @genre = params[:genre]
     if @selection == 'new'
-      @stores = Store.left_joins(:store_comments).where(store_comments:{ genre: params[:genre] }).distinct.order(created_at: :DESC)
+      @stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.order(created_at: :DESC)
     else
-      @stores = Store.left_joins(:store_comments).where(store_comments:{ genre: params[:genre] }).distinct.sort_by do |store|
-                ranks = store.store_comments.where(store_comments:{ genre: params[:genre] })
-                    if ranks.present?
-                      ranks.map(&:rate).sum / ranks.size
-                    else
-                      0
-                    end
-              end.reverse
+      @stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.sort_by do |store|
+        ranks = store.store_comments.where(store_comments: { genre: params[:genre] })
+        if ranks.present?
+          ranks.map(&:rate).sum / ranks.size
+        else
+          0
+        end
+      end.reverse
     end
   end
 
@@ -58,5 +63,4 @@ class StoresController < ApplicationController
     params.require(:store).permit(:store_name, :menu, :postal_code, :latitude, :longitude,
                                   :address, :transportation, :business_day, :holiday)
   end
-
 end

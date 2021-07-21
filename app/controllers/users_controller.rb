@@ -5,13 +5,13 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @my_ranks = Store.left_joins(:store_comments).distinct.sort_by do |store|
-                    ranks = store.store_comments.select{ |store| store.user_id == @user.id }
-                    if ranks.present?
-                      ranks.map(&:rate).sum / ranks.size
-                    else
-                      0
-                    end
-                end.reverse
+      ranks = store.store_comments.select { |store| store.user_id == @user.id }
+      if ranks.present?
+        ranks.map(&:rate).sum / ranks.size
+      else
+        0
+      end
+    end.reverse
     @my_ranks = @my_ranks.first(3)
   end
 
@@ -40,5 +40,4 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)
   end
-
 end

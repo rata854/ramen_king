@@ -21,9 +21,9 @@
     <% @my_ranks.each.with_index(1) do |my_rank, index| %>
       <% avg = my_rank.store_comments.where(user_id: @user.id).average(:rate) %>
       <% unless avg.nil? %>
-        <table class='table'>
+        <table class='table' style="table-layout:fixed;">
             <tr>
-            <th class="text-left">
+            <th class="text-left" >
               <% case index when 1 %>
                 <i class="fas fa-crown" style='color: gold;'></i>1位
               <% when 2 %>
@@ -46,21 +46,22 @@
           </table>
           <% end %>
         <% end %>
-
-
     </div>
     <div class='col-md-7 offset-md-1'>
       <h4><i class="fas fa-comments"></i>&ensp;<%= @user.name %>さんの口コミ数<%= @user.store_comments.count %>件</h4>
             <% @user.store_comments.each do |store_comment|%>
             <!--フッダーを除くカードのパーシャル-->
               <%= render 'store_comments/comment', user: @user, store_comment: store_comment %>
-              <div class="col-6">店舗名：<%= store_comment.store.store_name %></div>
-                投稿日:<%= store_comment.created_at.strftime('%Y/%m/%d') %>&ensp;
+              <div class="col-6">店舗名：
+                <%= link_to store_path(store_comment.store_id) do %>
+                  <%= store_comment.store.store_name %>
+                <% end %>
+                </div>
+                  投稿日:<%= store_comment.created_at.strftime('%Y/%m/%d') %>&ensp;
               </div>
             </div>
           </div>
         <% end %>
-
     </div>
   </div>
 </div>

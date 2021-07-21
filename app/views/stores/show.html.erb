@@ -57,12 +57,17 @@
       <div class="tab-pane" id="store_commnets">
         <% @store.store_comments.each do |store_comment|%>
           <%= render 'store_comments/comment', user: @store, store_comment: store_comment %>
-                <div class="col-6">投稿者：<%= store_comment.user.name %></div>
+                <div class="col-6">投稿者：
+                  <%= link_to user_path(store_comment.user_id) do %>
+                    <%= store_comment.user.name %>
+                  <% end %>
+                </div>
                 投稿日:<%= store_comment.created_at.strftime('%Y/%m/%d') %>&ensp;
               </div>
             </div>
           </div>
         <% end %>
+        <%#= paginate @store_comments, theme: 'twitter-bootstrap-4' %>
         </div>
       
         <div class="tab-pane" id="store_photos">
@@ -79,6 +84,7 @@
           </div>
         </div>
       <% end %>
+      
     </div>
         </div>
       </div>

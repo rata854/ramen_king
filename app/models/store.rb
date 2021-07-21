@@ -1,5 +1,4 @@
 class Store < ApplicationRecord
-
   belongs_to :user, optional: true
   has_many :store_comments
 
@@ -13,5 +12,4 @@ class Store < ApplicationRecord
   # geocodeを適用するための記述
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
-
 end
