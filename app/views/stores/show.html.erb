@@ -5,7 +5,7 @@
       <div class="row justify-content-between">
         <div class="col-4"><h4><%= @store.store_name %></4></div>
           <% if user_signed_in? %>
-            <%= link_to "店舗情報編集", edit_store_path, class: "btn btn-success" %>
+            <%= link_to "店舗情報編集", edit_store_path, class: "btn btn-outline-secondary" %>
           <% end %>
       </div>
       <!--星評価-->
@@ -15,9 +15,9 @@
         <% end %>
       <p><%= @store.address %></p>
       <div class="row justify-content-between">
-        <div class="col-4"><h5><%= @store.store_name %>の情報</5></div>
+        <div class="col-6"><h5><%= @store.store_name %>の情報</5></div>
           <% if user_signed_in? %>
-            <%= link_to "新規口コミ作成", new_store_store_comment_path(@store.id), class: "btn btn-success" %>
+            <%= link_to "新規口コミ作成", new_store_store_comment_path(@store.id), class: "btn btn-outline-success" %>
           <% end %>
       </div>
 

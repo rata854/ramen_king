@@ -9,8 +9,8 @@
           <% end %>
         </div>
           <% if @store_comment.user == current_user %>
-            <%= link_to "口コミ編集", edit_store_store_comment_path(@store, @store_comment), class: "btn btn-primary" %>
-            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-danger" %>
+            <%= link_to "口コミ編集", edit_store_store_comment_path(@store, @store_comment), class: "btn btn-outline-secondary" %>
+            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-outline-danger" %>
           <% end %>
       </div>
 
@@ -32,12 +32,12 @@
                <div class="card-img-left">
                  <%= attachment_image_tag(@store_comment, :product_image, fallback: "no_image.jpg", size: '200x200', class: "float-left") %>
                </div>
-                 <div class="card-text">
+                 <div class="card-item">
                  <%= render 'stores/star', store: @store_comment %>
                  <p>ジャンル：[<%= @store_comment.genre %>]</p>
                </div>
              </div>
-                 <p class="card-text"><%= @store_comment.introduction %></p>
+                 <div class="card-text p-3"><%= simple_format(@store_comment.introduction) %></div>
           </div>
 
     </div>

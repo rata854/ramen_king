@@ -5,6 +5,7 @@
       <%= render 'index' %>
         <tbody>
           <% @stores.each do |store| %>
+          <% avg = store.store_comments.average(:rate) %>
           <tr>
             <td></td>
             <td>
@@ -14,10 +15,7 @@
             </td>
             <td><%= store.address %></td>
             <td>
-              <% avg = store.store_comments.average(:rate) %>
-                <% unless avg.nil? %>
-                  <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
-                <% end %>
+              <%= render 'star_average', { rate_name: "rate", store: store, score: avg.nil? ? 0 : avg.round(1) } %>
             </td>
           </tr>
           <% end %>

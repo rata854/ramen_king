@@ -29,16 +29,17 @@
           </div>
         </div>
         <% else %>
-        <table class="table table-hover m-2" style="table-layout:fixed;">
+        <table class="table m-2" style="table-layout:fixed;">
+          <tbody>
           <tr>
             <th style="width:150px;">第<%= index %>位</th>
             <th><%= store.store_name %></th>
             <th><%= store.address %></th>
             <th><%= render 'stores/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %></th>
           </tr>
-          </table>
-
-        <% end %>
+        </tbody>
+        </table>
+          <% end %>
       <% end %>
     </div>
 <%#= paginate @stores, theme: 'twitter-bootstrap-4' %>
