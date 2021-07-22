@@ -58,13 +58,13 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
       end
     end
 
-    # context 'rateカラム' do
-    #   it '空白だと登録できない' do
-    #     store_comment = build(:store_comment, rate: '1')
-    #     expect(store_comment).to_not be_valid
-    #     expect(store_comment.errors[:rate]).to include("can't be blank")
-    #   end
-    # end
+    context 'rateカラム' do
+      it 'rateの値がないと登録できない' do
+        store_comment = build(:store_comment, rate: '')
+        expect(store_comment).to_not be_valid
+        expect(store_comment.errors[:rate]).to include("can't be blank")
+      end
+    end
 
     context 'userモデルとの関係' do
       it 'N:1となっている' do
