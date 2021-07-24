@@ -1,6 +1,6 @@
 class StoreComment < ApplicationRecord
   belongs_to :user
-  belongs_to :store, optional: true
+  belongs_to :store
 
   attachment :product_image
   enum genre: { しょうゆ: 0, みそ: 1, とんこつ: 2, しお: 3 }

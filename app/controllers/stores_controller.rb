@@ -2,16 +2,17 @@ class StoresController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index, :search]
 
   def index
-    @stores = Store.page(params[:page]).per(10)
+    @stores = Store.page(params[:page]).per(3)
   end
 
   def show
     @store = Store.find(params[:id])
-    # comments = []
-    # Store.store_comments.each do |store_comment|
-    #   comments << store_comment
-    # end
-    # @store_comments = Kaminari.paginate_array(comments).page(params[:page]).per(3)
+    comments = []
+    @store.store_comments.each do |store_comment|
+      comments << store_comment
+    end
+    @store_comments = Kaminari.paginate_array(comments).page(params[:page]).per(3)
+  
   end
 
   def new

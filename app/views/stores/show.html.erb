@@ -1,7 +1,6 @@
 <div class='container'>
   <div class='row'>
     <div class="col-sm-10 mx-auto">
-
       <div class="row justify-content-between">
         <div class="col-4"><h4><%= @store.store_name %></4></div>
           <% if user_signed_in? %>
@@ -20,7 +19,6 @@
             <%= link_to "新規口コミ作成", new_store_store_comment_path(@store.id), class: "btn btn-outline-success" %>
           <% end %>
       </div>
-
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="#store_information" data-toggle="tab" class="nav-link active">店舗情報</a></li>
         <li class="nav-item"><a href="#store_commnets" data-toggle="tab" class="nav-link">口コミ</a></li>
@@ -51,42 +49,38 @@
             <tr>
               <th>定休日</th><td><%= @store.holiday %></td>
             </tr>
-
           </table>
       </div>
+
+
       <div class="tab-pane" id="store_commnets">
+        <div class="pagenate">
         <% @store.store_comments.each do |store_comment|%>
           <%= render 'store_comments/comment', user: @store, store_comment: store_comment %>
-                <div class="col-6">投稿者：
-                  <%= link_to user_path(store_comment.user_id) do %>
-                    <%= store_comment.user.name %>
-                  <% end %>
-                </div>
-                投稿日:<%= store_comment.created_at.strftime('%Y/%m/%d') %>&ensp;
+        <% end %>
+        <%= paginate @store_comments, remote: true %>
+        </div>
+      </div>
+
+
+
+
+      <div class="tab-pane" id="store_photos">
+        <div class="row">
+        <% @store.store_comments.each do |store_comment|%>
+          <div class="col-md-4" >
+            <div class="card-group">
+              <div class="card m-2">
+                <%= link_to store_store_comment_path(@store.id, store_comment.id) do %>
+                  <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", class: 'card-img-top border border-3') %>
+                <% end %>
               </div>
             </div>
           </div>
         <% end %>
-        <%#= paginate @store_comments, theme: 'twitter-bootstrap-4' %>
         </div>
-      
-        <div class="tab-pane" id="store_photos">
+      </div>
 
-      <div class="row">
-      <% @store.store_comments.each do |store_comment|%>
-        <div class="col-md-4" >
-          <div class="card-group">
-            <div class="card m-2">
-              <%= link_to store_store_comment_path(@store.id, store_comment.id) do %>
-                <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", class: 'card-img-top border border-3') %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      <% end %>
-      
-    </div>
-        </div>
       </div>
 
     </div>

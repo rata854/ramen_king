@@ -8,10 +8,12 @@ class HomesController < ApplicationController
         0
       end
     end.reverse
-    # @stores = @stores.page(params[:page]).per(10)
+    @top_ranks = @stores.first(3)
+    @ranks = @stores.offset(3)
+    # @ranks = Kaminari.paginate_array(ranks).page(params[:page]).per(7)
   end
 
   def about
   end
-  
+
 end

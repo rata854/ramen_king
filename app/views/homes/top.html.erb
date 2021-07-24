@@ -1,14 +1,12 @@
 <div class="container">
   <h2>らあめんKING</h2>
     <div class="row justify-content-between">
-      <div class="col-4"><h4><h5><i class="fas fa-trophy" style='color: gold;'></i>総合ランキング</h5></4></div>
+      <div class="col-4"><h5><i class="fas fa-trophy" style='color: gold;'></i>総合ランキング</h5></div>
         <%= link_to "ジャンル別のランキングも見る", stores_path %>
       </div>
-
     <div class="row">
-      <% @stores.each.with_index(1) do |store, index| %>
+      <% @top_ranks.each.with_index(1) do |store, index| %>
       <% avg = store.store_comments.average(:rate) %>
-      <% if index <= 3 %>
         <div class="col-md-4" >
           <div class="card-group">
             <div class="card">
@@ -32,7 +30,10 @@
             </div>
           </div>
         </div>
-        <% else %>
+        <% end %>
+
+        <% @ranks.each.with_index(1) do |store, index| %>
+        <% avg = store.store_comments.average(:rate) %>
         <table class="table m-2" style="table-layout:fixed;">
           <tbody>
           <tr>
@@ -48,10 +49,6 @@
         </tbody>
         </table>
           <% end %>
-      <% end %>
     </div>
 <%#= paginate @stores, theme: 'twitter-bootstrap-4' %>
-
-
-
 </div>
