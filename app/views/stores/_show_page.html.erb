@@ -1,0 +1,4 @@
+        <% @store_comments.each do |store_comment|%>
+          <%= render 'store_comments/comment', user: @store, store_comment: store_comment %>
+        <% end %>
+        <%= paginate @store_comments, remote: true %>

@@ -1,0 +1,14 @@
+        <div class="row">
+        <% @store_images.each do |store_image|%>
+          <div class="col-md-4" >
+            <div class="card-group">
+              <div class="card m-2">
+                <%= link_to store_store_comment_path(@store.id, store_image.id) do %>
+                  <%= attachment_image_tag(store_image, :product_image,  fallback: "no_image.jpg", class: 'card-img-top border border-3') %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <%= paginate @store_images, remote: true %>
+        </div>

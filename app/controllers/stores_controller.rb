@@ -2,7 +2,7 @@ class StoresController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index, :search]
 
   def index
-    @stores = Store.page(params[:page]).per(3)
+    @stores = Store.page(params[:page]).per(10)
   end
 
   def show
@@ -11,8 +11,13 @@ class StoresController < ApplicationController
     @store.store_comments.each do |store_comment|
       comments << store_comment
     end
-    @store_comments = Kaminari.paginate_array(comments).page(params[:page]).per(3)
-  
+    @store_comments = Kaminari.paginate_array(comments).page(params[:page]).per(2)
+    @store_images = Kaminari.paginate_array(comments).page(params[:page]).per(3)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new
@@ -45,9 +50,10 @@ class StoresController < ApplicationController
     @selection = params[:keyword]
     @genre = params[:genre]
     if @selection == 'new'
-      @stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.order(created_at: :DESC)
+      stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.order(created_at: :DESC)
+      @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
     else
-      @stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.sort_by do |store|
+      stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.sort_by do |store|
         ranks = store.store_comments.where(store_comments: { genre: params[:genre] })
         if ranks.present?
           ranks.map(&:rate).sum / ranks.size
@@ -55,6 +61,7 @@ class StoresController < ApplicationController
           0
         end
       end.reverse
+      @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
     end
   end
 

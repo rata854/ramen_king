@@ -9,7 +9,7 @@
       <% avg = store.store_comments.average(:rate) %>
         <div class="col-md-4" >
           <div class="card-group">
-            <div class="card">
+            <div class="card mb-3">
               <%= attachment_image_tag(store.store_comments.order(rate: :DESC).first, :product_image, fallback: "no_image.jpg", class: 'card-img-top') %>
               <div class="card-body text">
               <h4>
@@ -31,11 +31,12 @@
           </div>
         </div>
         <% end %>
-
-        <% @ranks.each.with_index(1) do |store, index| %>
+ <table class="table m-2" style="table-layout:fixed;">
+   <tbody>
+        <% @ranks.each.with_index(4) do |store, index| %>
         <% avg = store.store_comments.average(:rate) %>
-        <table class="table m-2" style="table-layout:fixed;">
-          <tbody>
+
+          
           <tr>
             <th style="width:150px;">第<%= index %>位</th>
             <th>
@@ -46,9 +47,10 @@
             <th><%= store.address %></th>
             <th><%= render 'stores/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %></th>
           </tr>
+          <% end %>
         </tbody>
         </table>
-          <% end %>
+          
     </div>
-<%#= paginate @stores, theme: 'twitter-bootstrap-4' %>
+  <%= paginate @ranks, theme: 'twitter-bootstrap-4' %>
 </div>
