@@ -8,22 +8,15 @@
           <tr>
             <td class="text-center">
               <% unless @selection == 'new' %>
-                <% case index when 1 %>
-                  <i class="fas fa-crown" style='color: gold;'></i>1位
-                <% when 2 %>
-                  <i class="fas fa-crown" style='color: silver;'></i>2位
-                <% when 3 %>
-                  <i class="fas fa-crown" style='color: orange;'></i>3位
-                <% else %>
-                  <%= index %>位
-                <% end %>
+              <!--トップ3部分テンプレート-->
+                <%= render 'shared/rank', index: index %>
               <% end %>
             </td>
             <td>
-          <%= link_to store_path(store.id) do %>
-              <%= store.store_name %>
+              <%= link_to store_path(store.id) do %>
+                <%= store.store_name %>
               <% end %>
-           </td>
+            </td>
             <td><%= store.address %></td>
             <td>
               <% if @genre == 'しょうゆ' %>
@@ -54,10 +47,10 @@
               <% end %>
             </td>
           </tr>
-        </tbody>
           <% end %>
+        </tbody>
       </table>
       <%= paginate @stores, theme: 'twitter-bootstrap-4' %>
-     </div>
-   </div>
- </div>
+    </div>
+  </div>
+</div>

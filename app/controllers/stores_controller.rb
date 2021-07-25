@@ -7,12 +7,10 @@ class StoresController < ApplicationController
 
   def show
     @store = Store.find(params[:id])
-    comments = []
-    @store.store_comments.each do |store_comment|
-      comments << store_comment
-    end
-    @store_comments = Kaminari.paginate_array(comments).page(params[:page]).per(2)
-    @store_images = Kaminari.paginate_array(comments).page(params[:page]).per(3)
+    # タブ2用ページネーション
+    @store_comments = @store.store_comments.page(params[:comments]).per(5)
+    # タブ3用ページネーション
+    @store_images = @store.store_comments.page(params[:images]).per(12)
 
     respond_to do |format|
       format.html
@@ -71,4 +69,5 @@ class StoresController < ApplicationController
     params.require(:store).permit(:store_name, :menu, :postal_code, :latitude, :longitude,
                                   :address, :transportation, :business_day, :holiday)
   end
+  
 end

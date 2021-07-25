@@ -1,6 +1,6 @@
 <% if store.store_comments.present? %>
   <div class="rate_<%= store.id %>_<%= rate_name %>" ></div>
-    <p>(<%= score %>/5.0)</p>
+    (<%= score %>/5.0)
     <script>
       $('.rate_<%= store.id %>_<%= rate_name %>').empty();
         $('.rate_<%= store.id %>_<%= rate_name %>').raty({

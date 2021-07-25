@@ -10,7 +10,7 @@
             <td></td>
             <td>
               <%= link_to store_path(store.id) do %>
-                  <%= store.store_name %>
+                <%= store.store_name %>
               <% end %>
             </td>
             <td><%= store.address %></td>
@@ -22,7 +22,6 @@
         </tbody>
       </table>
       <%= paginate @stores, theme: 'twitter-bootstrap-4' %>
-     </div>
-   </div>
- </div>
-
+    </div>
+  </div>
+</div>

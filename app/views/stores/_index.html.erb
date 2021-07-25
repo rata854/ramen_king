@@ -1,27 +1,25 @@
- <div class="row justify-content-between p-2">
-        <div class="col-5"><h4><i class="fas fa-store"></i>&ensp;店舗一覧</4></div>
-        <div class="col-2">
-          <% if user_signed_in? %>
-            <%= link_to "新規店舗登録", new_store_path, class: "btn btn-outline-success" %>
-          <% end %>
-          </div>
-      </div>
-      <table class="table table-hover">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col"></th>
-            <th scope="col"><i class="fas fa-store"></i>&ensp;店舗名</th>
-            <th scope="col"><i class="fas fa-map-marked-alt"></i>&ensp;住所</th>
-            <th>
-              <div class="search-form">
-              <%= form_with url: search_path, local: true, method: :get do |f| %>
-                <%= f.select :keyword ,([['評価順', 'ranking'], ['新着順', 'new']]), { selected: @selection } %>
-                <%= f.select :genre, StoreComment.genres.keys.to_a, { selected: @genre } %>
-                <%= button_tag type: 'submit', class: "btn btn-primary btn-sm" do %>
-                <i class="fas fa-search"></i>検索
-                <% end %>
+<div class="row justify-content-between p-2">
+  <div class="col-4"><h4><i class="fas fa-store"></i>&ensp;店舗一覧</4></div>
+    <% if user_signed_in? %>
+      <%= link_to "新規店舗登録", new_store_path, class: "btn btn-outline-success" %>
+    <% end %>
+  </div>
+    <table class="table table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"><i class="fas fa-store"></i>&ensp;店舗名</th>
+          <th scope="col"><i class="fas fa-map-marked-alt"></i>&ensp;住所</th>
+          <th>
+            <div class="search-form">
+            <%= form_with url: search_path, local: true, method: :get do |f| %>
+              <%= f.select :keyword ,([['評価順', 'ranking'], ['新着順', 'new']]), { selected: @selection } %>
+              <%= f.select :genre, StoreComment.genres.keys.to_a, { selected: @genre } %>
+              <%= button_tag type: 'submit', class: "btn btn-primary btn-sm" do %>
+              <i class="fas fa-search"></i>検索
               <% end %>
-              </div>
-            </th>
-          </tr>
-        </thead>
+            <% end %>
+            </div>
+          </th>
+        </tr>
+      </thead>

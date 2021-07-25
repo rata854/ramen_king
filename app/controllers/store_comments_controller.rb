@@ -1,6 +1,6 @@
 class StoreCommentsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  
+
   def show
     @store = Store.find(params[:store_id])
     @store_comment = StoreComment.find(params[:id])
@@ -29,7 +29,6 @@ class StoreCommentsController < ApplicationController
 
   def update
     @store_comment = StoreComment.find(params[:id])
-
     if @store_comment.update(store_comment_params)
       redirect_to store_store_comment_path(id: @store_comment), notice: "口コミを更新しました"
     else
@@ -50,4 +49,5 @@ class StoreCommentsController < ApplicationController
     params.require(:store_comment).permit(:title, :introduction, :product_image,
                                           :rate, :genre, :store_id)
   end
+  
 end

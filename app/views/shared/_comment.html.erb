@@ -1,0 +1,32 @@
+<div class="card m-3">
+  <div class="card-header">
+    <%= link_to store_store_comment_path(store_comment.store_id, store_comment.id) do %>
+      <h5 class="card-title"><%= store_comment.title %></h5>
+    <% end %>
+  </div>
+    <div class="card-body">
+      <div class="card-img-left">
+        <%= attachment_image_tag(store_comment, :product_image,  fallback: "no_image.jpg", size: '200x200', class: "float-left mr-2") %>
+       </div>
+      <div class="card-text">
+        <!--星評価部分テンプレート-->
+        <%= render 'shared/star', store: store_comment %>
+        <p>ジャンル：[<%= store_comment.genre %>]</p>
+        <p class="card-text"><%= store_comment.introduction.truncate(60) %>
+        <%= link_to "詳細をみる", store_store_comment_path(store_comment.store_id, store_comment.id) %></p>
+      </div>
+    </div>
+    <div class="card-footer text-muted">
+      <div class="row justify-content-between">
+        <div class="col-6"><small>投稿者:
+          <%= link_to user_path(store_comment.user_id) do %>
+            <%= store_comment.user.name %>
+          <% end %>&ensp;|&ensp;店舗名:
+          <%= link_to store_path(store_comment.store_id) do %>
+            <%= store_comment.store.store_name %>
+          <% end %>
+        </div>
+        投稿日:<%= store_comment.created_at.strftime('%Y/%m/%d') %>&ensp;</small>
+      </div>
+    </div>
+</div>

@@ -10,13 +10,11 @@
       	  <th class="text-center"><%= simple_format(@user.introduction) %></th>
         </tr>
       </table>
-
       <div class='row test-center'>
         <% if @user == current_user %>
          <%= link_to '編集',edit_user_path(@user),class: "btn btn-outline-secondary btn-block" %>
         <% end %>
       </div>
-
     <h5 class='p-2 text-center'><i class="fas fa-trophy" style='color: gold;'></i><%= @user.name %>さんのランキング</h5>
     <% @my_ranks.each.with_index(1) do |my_rank, index| %>
       <% avg = my_rank.store_comments.where(user_id: @user.id).average(:rate) %>
@@ -24,15 +22,8 @@
         <table class='table' style="table-layout:fixed;">
             <tr>
             <th class="text-left" >
-              <% case index when 1 %>
-                <i class="fas fa-crown" style='color: gold;'></i>1位
-              <% when 2 %>
-                <i class="fas fa-crown" style='color: silver;'></i>2位
-              <% when 3 %>
-                <i class="fas fa-crown" style='color: orange;'></i>3位
-              <% else %>
-                <%= index %>位
-              <% end %>
+              <!--トップ3部分テンプレート-->
+              <%= render 'shared/rank', index: index %>
             </th>
               <th>
                 <%= link_to store_path(my_rank.id) do %>
@@ -49,11 +40,11 @@
     </div>
     <div class='col-md-7 offset-md-1'>
       <h4><i class="fas fa-comments"></i>&ensp;<%= @user.name %>さんの口コミ数<%= @user.store_comments.count %>件</h4>
+        <!--コメントカード部分テンプレート-->
         <% @user_comments.each do |store_comment|%>
-          <%= render 'store_comments/comment', user: @user, store_comment: store_comment %>
+          <%= render 'shared/comment', user: @user, store_comment: store_comment %>
         <% end %>
-        <%= paginate @user_comments %>
+        <%= paginate @user_comments, theme: 'twitter-bootstrap-4' %>
       </div>
-    </div>
   </div>
-
+</div>
