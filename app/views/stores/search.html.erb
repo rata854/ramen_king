@@ -20,29 +20,30 @@
             <td><%= store.address %></td>
             <td>
               <% if @genre == 'しょうゆ' %>
+                <!--星平均部分テンプレート（しょうゆ〜とんこつまで）-->
                 <% avg = store.store_comments.where(genre: 0).average(:rate) %>
                   <% unless avg.nil? %>
-                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                    <%= render'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
                   <% end %>
               <% elsif @genre == 'みそ' %>
                 <% avg = store.store_comments.where(genre: 1).average(:rate) %>
                   <% unless avg.nil? %>
-                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                    <%= render 'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
                   <% end %>
               <% elsif @genre == 'とんこつ' %>
                 <% avg = store.store_comments.where(genre: 2).average(:rate) %>
                   <% unless avg.nil? %>
-                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                    <%= render 'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
                   <% end %>
               <% elsif @genre == 'しお' %>
                 <% avg = store.store_comments.where(genre: 3).average(:rate) %>
                   <% unless avg.nil? %>
-                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                    <%= render 'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
                   <% end %>
               <% else %>
                 <% avg = store.store_comments.average(:rate) %>
                   <% unless avg.nil? %>
-                    <%= render 'star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
+                    <%= render 'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
                   <% end %>
               <% end %>
             </td>

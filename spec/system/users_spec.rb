@@ -73,7 +73,8 @@ RSpec.describe 'Users', type: :system do
       before do
         @user = FactoryBot.create(:user)
       end
-
+      
+      describe 'ログイン画面のテスト'
       before do
         visit new_user_session_path
       end
@@ -102,6 +103,38 @@ RSpec.describe 'Users', type: :system do
 
         it 'ログイン後、ログインしたユーザー詳細画面に遷移している' do
           expect(current_path).to eq '/users/' + @user.id.to_s
+        end
+      end
+      
+      describe 'ユーザー編集画面のテスト' do
+        before do
+          visit edit_user_path(@user)
+          # visit new_user_session_path
+          # fill_in 'user[name]', with: user.name
+          # fill_in 'user[password]', with: user.password
+          # click_button 'Log in'
+        end
+        
+        context '表示の確認' do
+          it 'URLが正しい' do
+            expect(current_path).to eq '/users/' + @user.id.to_s + '/edit'
+          end
+          # it 'name編集フォームが表示されている' do
+          #   expect(page).to have_field 'user[name]', with: user.name
+          # end
+          # it 'introduction編集フォームが表示されている' do
+          #   expect(page).to have_field 'user[introduction]', with: user.introduction
+          # end
+          # it 'プロフィール画像編集フォームが表示されている' do
+          # expect(page).to have_field 'user[profile_image]'
+          # end
+          # it 'update userボタンが表示されている' do
+          #   expect(page).to have_button 'Update User'
+          # end
+        end
+        
+        context '更新の成功のテスト' do
+          
         end
       end
     end

@@ -32,7 +32,8 @@
               </th>
             </tr>
             <tr>
-          	  <th colspan="2"><%= render 'stores/star_average', { rate_name: "my_rate" ,store: my_rank, score: avg.nil? ? 0 : avg.round(1) } %></th>
+              <!--星平均部分テンプレート-->
+          	  <th colspan="2"><%= render 'shared/star_average', { rate_name: "my_rate" ,store: my_rank, score: avg.nil? ? 0 : avg.round(1) } %></th>
             </tr>
           </table>
           <% end %>

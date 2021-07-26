@@ -69,5 +69,5 @@ class StoresController < ApplicationController
     params.require(:store).permit(:store_name, :menu, :postal_code, :latitude, :longitude,
                                   :address, :transportation, :business_day, :holiday)
   end
-  
+
 end
