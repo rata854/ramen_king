@@ -17,16 +17,13 @@
       </div>
     </div>
     <div class="card-footer text-muted">
-      <div class="row justify-content-between">
-        <div class="col-6"><small>投稿者:
-          <%= link_to user_path(store_comment.user_id) do %>
-            <%= store_comment.user.name %>
-          <% end %>&ensp;|&ensp;店舗名:
-          <%= link_to store_path(store_comment.store_id) do %>
-            <%= store_comment.store.store_name %>
-          <% end %>
-        </div>
-        投稿日:<%= store_comment.created_at.strftime('%Y/%m/%d') %>&ensp;</small>
-      </div>
+      <small>
+        投稿者:<%= link_to user_path(store_comment.user_id) do %>
+          <%= store_comment.user.name %>
+        <% end %>&ensp;|&ensp;店舗名:
+        <%= link_to store_path(store_comment.store_id) do %>
+          <%= store_comment.store.store_name %>
+        <% end %>
+      </small>
     </div>
 </div>

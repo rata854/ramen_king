@@ -1,10 +1,10 @@
-<div class="row justify-content-between p-2">
-  <div class="col-4"><h4><i class="fas fa-store"></i>&ensp;店舗一覧</4></div>
+<div class="row justify-content-between">
+  <div class="col-4"><h5><i class="fas fa-store"></i>&ensp;店舗一覧</5></div>
     <% if user_signed_in? %>
       <%= link_to "新規店舗登録", new_store_path, class: "btn btn-outline-success" %>
     <% end %>
   </div>
-    <table class="table table-hover">
+    <table class="table table-hover mt-2">
       <thead class="thead-light">
         <tr>
           <th scope="col"></th>

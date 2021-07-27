@@ -120,7 +120,7 @@ RSpec.describe 'Stores', type: :system do
         end
       end
       
-      context '店舗編集登録のテスト' do
+      context '店舗登録のテスト' do
         before do
           fill_in 'store[store_name]', with: Faker::Lorem.characters(number: 5)
           fill_in 'store[postal_code]', with: '7654321'
@@ -131,10 +131,10 @@ RSpec.describe 'Stores', type: :system do
           fill_in 'store[holiday]', with: '日曜日'
         end
 
-        it '正しく編集登録される' do
+        it '正しく登録される' do
           expect { click_button 'Create Store' }.to change(Store.all, :count).by(1)
         end
-        it '店舗編集登録後、編集した店舗詳細画面へ遷移してる' do
+        it '店舗登録後、登録した店舗詳細画面へ遷移してる' do
           click_button 'Create Store'
           expect(current_path).to eq '/stores/' + Store.last.id.to_s
         end

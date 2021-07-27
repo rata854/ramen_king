@@ -6,9 +6,10 @@ RSpec.describe 'StoreComments', type: :system do
   before do
     @user = FactoryBot.create(:user)
     @user2 = FactoryBot.create(:user)
+    @store = FactoryBot.create(:store)
     @store_comment = FactoryBot.create(:store_comment, user_id: @user.id)
   end
-  
+
   describe '未ログイン状態' do
     it '新規口コミを投稿できない'
   end
@@ -20,7 +21,7 @@ RSpec.describe 'StoreComments', type: :system do
       fill_in 'user[password]', with: @user2.password
       click_button 'Log in'
     end
-    
+
     describe '口コミ詳細画面のテスト' do
     before do
       visit store_store_comment_path(@store_comment.store_id, @store_comment.id)
@@ -38,24 +39,18 @@ RSpec.describe 'StoreComments', type: :system do
         end
       end
     end
-  
+
     describe '口コミ編集画面' do
       before do
-        visit estore_store_comment_path(@store_comment.store_id, @store_comment.id)
+        visit edit_store_store_comment_path(@store_comment.store_id, @store_comment.id)
       end
-  
-      context '表示の確認' do
-        it 'URLが正しい' do
-          expect(current_path).to eq '/stores/' + @store.id.to_s
-        end
-        it 'ログインしてないと店舗編集画面へのリンクが存在しない' do
-          expect(page).to_not have_link '店舗情報編集'
-        end
-        it 'ログインしてないと口コミ投稿画面へのリンクが存在しない' do
-          expect(page).to_not have_link '新規口コミ作成'
-        end
+
+      it '他人の投稿編集画面には遷移出来ず、投稿詳細画面に遷移する' do
+        expect(current_path).to eq '/stores/' + @store_comment.store_id.to_s + '/store_comments/' + @store_comment.id.to_s
       end
+
     end
+
   end
 
   describe '自分の口コミ' do
@@ -84,6 +79,53 @@ RSpec.describe 'StoreComments', type: :system do
       end
 
     end
+
+    describe '口コミ編集画面' do
+      before do
+        visit edit_store_store_comment_path(@store_comment.store_id, @store_comment.id)
+      end
+
+      context '表示の確認' do
+        it 'URLが正しい' do
+          expect(current_path).to eq '/stores/' + @store_comment.store_id.to_s + '/store_comments/' + @store_comment.id.to_s + '/edit'
+        end
+        it 'タイトルフォームが表示されている' do
+          expect(page).to have_field 'store_comment[title]', with: @store_comment.title
+        end
+        # it '星評価フォームが表示されている' do
+        #   expect(page).to have_field 'store_comment[rate]'
+        # end
+        it '本文フォームが表示されている' do
+          expect(page).to have_field 'store_comment[introduction]', with: @store_comment.introduction
+        end
+        it '画像フォームが表示されている' do
+          expect(page).to have_field 'store_comment[product_image]'
+        end
+        it 'ジャンルフォームが表示されている' do
+          expect(page).to have_field 'store_comment[genre]', with: 'みそ'
+        end
+        it 'Update Store commentボタンが表示されている' do
+          expect(page).to have_button 'Update Store comment'
+        end
+      end
+
+      context '投稿編集のテスト' do
+        before do
+          fill_in 'store_comment[title]', with: Faker::Lorem.characters(number: 5)
+          # fill_in 'store_comment[rate]', with: find('#star').find("img[alt='2']").click
+          fill_in 'store_comment[introduction]', with: Faker::Lorem.characters(number: 500)
+          fill_in 'store_comment[product_image]'
+          fill_in 'store_comment[genre]', with: 'しょうゆ'
+        end
+
+        it '投稿編集後、編集した店舗詳細画面へ遷移してる' do
+          click_button 'Create Store'
+          expect(current_path).to eq  expect(current_path).to eq '/stores/' + @store_comment.store_id.to_s + '/store_comments/' + @store_comment.id.to_s
+        end
+      end
+
+    end
+
   end
 
 end
