@@ -4,5 +4,7 @@ FactoryBot.define do
     introduction { Faker::Lorem.characters(number: 1000) }
     rate { 3.5 }
     genre { 'みそ' }
+    association :user
+    association :store
   end
 end

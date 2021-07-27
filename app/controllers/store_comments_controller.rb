@@ -1,5 +1,6 @@
 class StoreCommentsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
+  before_action :ensure_correct_user, except: [:show, :new]
 
   def show
     @store = Store.find(params[:store_id])
@@ -43,11 +44,18 @@ class StoreCommentsController < ApplicationController
     redirect_to user_path(current_user)
   end
 
+  def ensure_correct_user
+    @store_comment = StoreComment.find(params[:id])
+    unless @store_comment.user_id == current_user.id
+      redirect_to store_store_comment_path(current_user)
+    end
+  end
+
   private
 
   def store_comment_params
     params.require(:store_comment).permit(:title, :introduction, :product_image,
                                           :rate, :genre, :store_id)
   end
-  
+
 end
