@@ -11,7 +11,10 @@ RSpec.describe 'StoreComments', type: :system do
   end
 
   describe '未ログイン状態' do
-    it '新規口コミを投稿できない'
+    it '新規口コミを投稿できない' do
+      # visit new_store_store_comment_path
+      # expect(current_path).to eq '/users/sign_in'
+    end
   end
 
   describe '他人の口コミ' do

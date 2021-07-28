@@ -1,14 +1,8 @@
 class HomesController < ApplicationController
   
   def top
-    @stores = Store.left_joins(:store_comments).distinct.sort_by do |store|
-      ranks = store.store_comments
-      if ranks.present?
-        ranks.map(&:rate).sum / ranks.size
-      else
-        0
-      end
-    end.reverse
+    # ranksで平均を計算
+    @stores = Store.ranks
     # トップ3用
     @top_ranks = @stores.first(3)
     # トップ3以降のランキング

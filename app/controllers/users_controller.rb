@@ -16,6 +16,8 @@ class UsersController < ApplicationController
       end
     end.reverse
     @my_ranks = my_ranks.first(3)
+
+    # @my_ranks = Store.my_ranks(@user).first(3)
   end
 
   def edit
@@ -43,5 +45,5 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)
   end
-  
+
 end

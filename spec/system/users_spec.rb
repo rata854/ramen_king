@@ -4,27 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :system do
   describe 'ログイン前のユーザテスト' do
-    describe 'トップ画面のテスト'
-    before do
-      visit root_path
-    end
-
-    context '表示内容の確認'
-    it 'URLが正しい' do
-      expect(current_path).to eq '/'
-    end
-
-    describe 'アバウト画面のテスト' do
-      before do
-        visit '/about'
-      end
-
-      context '表示内容の確認'
-      it 'URLが正しい' do
-        expect(current_path).to eq '/about'
-      end
-    end
-
+    
     describe 'ユーザ新規登録のテスト' do
       before do
         visit new_user_registration_path
