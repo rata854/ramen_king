@@ -12,4 +12,31 @@ class Store < ApplicationRecord
   # geocodeを適用するための記述
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
+  
+  # 各ユーザーのランキング
+  def self.my_ranks(user)
+    left_joins(:store_comments).distinct.sort_by do |store|
+      ranks = store.store_comments.select { |store| store.user_id == user.id }
+      if ranks.present?
+        ranks.map(&:rate).sum / ranks.size
+      else
+        0
+      end
+    end.reverse
+  end
+  # ジャンル別の新着順
+  def self.new_arrival(genre)
+    left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.order(created_at: :DESC)
+  end
+  # ジャンル別のランキング
+  def self.by_genre_ranks(genre)
+    left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.sort_by do |store|
+        ranks = store.store_comments.where(store_comments: { genre: genre })
+        if ranks.present?
+          ranks.map(&:rate).sum / ranks.size
+        else
+          0
+        end
+      end.reverse
+  end
 end

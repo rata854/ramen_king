@@ -48,17 +48,10 @@ class StoresController < ApplicationController
     @selection = params[:keyword]
     @genre = params[:genre]
     if @selection == 'new'
-      stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.order(created_at: :DESC)
+      stores = Store.new_arrival(@genre)
       @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
     else
-      stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.sort_by do |store|
-        ranks = store.store_comments.where(store_comments: { genre: params[:genre] })
-        if ranks.present?
-          ranks.map(&:rate).sum / ranks.size
-        else
-          0
-        end
-      end.reverse
+      stores = Store.by_genre_ranks(@genre)
       @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
     end
   end
