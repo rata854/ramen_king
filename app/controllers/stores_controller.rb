@@ -9,9 +9,15 @@ class StoresController < ApplicationController
     @store = Store.find(params[:id])
     # タブ2用ページネーション
     @store_comments = @store.store_comments.page(params[:comments]).per(5)
-    # タブ3用ページネーション
-    @store_images = @store.store_comments.page(params[:images]).per(12)
-
+    # タブ3用ページネーション(画像がnilの場合非表示)
+    store_images = []
+    @store.store_comments.each do |store_comment|
+      unless store_comment.product_image == nil
+        store_images << store_comment
+      end
+    end
+    @store_images = Kaminari.paginate_array(store_images).page(params[:images]).per(12)
+    
     respond_to do |format|
       format.html
       format.js

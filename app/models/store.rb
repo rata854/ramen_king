@@ -12,7 +12,7 @@ class Store < ApplicationRecord
   # geocodeを適用するための記述
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
-  
+
   # 各ユーザーのランキング
   def self.my_ranks(user)
     left_joins(:store_comments).distinct.sort_by do |store|
@@ -24,10 +24,12 @@ class Store < ApplicationRecord
       end
     end.reverse
   end
+
   # ジャンル別の新着順
   def self.new_arrival(genre)
     left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.order(created_at: :DESC)
   end
+
   # ジャンル別のランキング
   def self.by_genre_ranks(genre)
     left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.sort_by do |store|
@@ -39,4 +41,13 @@ class Store < ApplicationRecord
         end
       end.reverse
   end
+
+  # 画像がnilの場合は表示しない
+  # def self.image_choose(store)
+  #   store_comments.each do |store_comment|
+  #     unless store_comment.product_image == nil
+  #       store_images << store_comment
+  #     end
+  #   end
+  # end
 end
