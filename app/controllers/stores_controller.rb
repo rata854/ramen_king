@@ -9,9 +9,15 @@ class StoresController < ApplicationController
     @store = Store.find(params[:id])
     # タブ2用ページネーション
     @store_comments = @store.store_comments.page(params[:comments]).per(5)
-    # タブ3用ページネーション
-    @store_images = @store.store_comments.page(params[:images]).per(12)
-
+    # タブ3用ページネーション(画像がnilの場合非表示)
+    store_images = []
+    @store.store_comments.each do |store_comment|
+      unless store_comment.product_image == nil
+        store_images << store_comment
+      end
+    end
+    @store_images = Kaminari.paginate_array(store_images).page(params[:images]).per(12)
+    
     respond_to do |format|
       format.html
       format.js
@@ -48,17 +54,10 @@ class StoresController < ApplicationController
     @selection = params[:keyword]
     @genre = params[:genre]
     if @selection == 'new'
-      stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.order(created_at: :DESC)
+      stores = Store.new_arrival(@genre)
       @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
     else
-      stores = Store.left_joins(:store_comments).where(store_comments: { genre: params[:genre] }).distinct.sort_by do |store|
-        ranks = store.store_comments.where(store_comments: { genre: params[:genre] })
-        if ranks.present?
-          ranks.map(&:rate).sum / ranks.size
-        else
-          0
-        end
-      end.reverse
+      stores = Store.by_genre_ranks(@genre)
       @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
     end
   end
