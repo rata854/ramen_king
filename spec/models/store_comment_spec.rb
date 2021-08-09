@@ -26,7 +26,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
       it '50字以下であること（50字は◯）' do
         title = Faker::Lorem.characters(number: 50)
         store_comment = build(:store_comment, title: title)
-        expect(store_comment).not_to be_valid
+        expect(store_comment).to be_valid
       end
 
       it '50字以下であること（51字は☓）' do
@@ -47,7 +47,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
       it '50字以下であること（2000字は◯）' do
         introduction = Faker::Lorem.characters(number: 2000)
         store_comment = build(:store_comment, introduction: introduction)
-        expect(store_comment).not_to be_valid
+        expect(store_comment).to be_valid
       end
 
       it '50字以下であること（2001字は☓）' do
