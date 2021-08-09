@@ -34,8 +34,7 @@ class Store < ApplicationRecord
   # ジャンル別のランキング
   def self.by_genre_ranks(genre)
     left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.
-    select { |status| status.business_status == "営業中" }.
-    select { |status| status.store_comments.count >= 5 }.sort_by do |store|
+    select { |status| status.business_status == "営業中" }.sort_by do |store|
         ranks = store.store_comments
         if ranks.present?
           ranks.map(&:rate).sum / ranks.size

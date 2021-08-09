@@ -3,8 +3,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.ranks
     joins(:store_comments).distinct.
-    select { |status| status.business_status == "営業中" }.
-    select { |status| status.store_comments.count >= 5 }.sort_by do |store|
+    select { |status| status.business_status == "営業中" }..sort_by do |store|
       ranks = store.store_comments
       # 三項演算子
       if ranks.present?
