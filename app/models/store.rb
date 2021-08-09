@@ -2,6 +2,7 @@ class Store < ApplicationRecord
   belongs_to :user, optional: true
   has_many :store_comments
 
+  enum business_status: { 営業中: 0, 休業中: 1, 閉店: 2 }
   validates :store_name, presence: true, length: { maximum: 15 }
   validates :menu, presence: true
   validates :postal_code, presence: true, numericality: { only_integer: true }, length: { is: 7 }
@@ -32,8 +33,10 @@ class Store < ApplicationRecord
 
   # ジャンル別のランキング
   def self.by_genre_ranks(genre)
-    left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.sort_by do |store|
-        ranks = store.store_comments.where(store_comments: { genre: genre })
+    left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.
+    select { |status| status.business_status == "営業中" }.
+    select { |status| status.store_comments.count >= 5 }.sort_by do |store|
+        ranks = store.store_comments
         if ranks.present?
           ranks.map(&:rate).sum / ranks.size
         else
@@ -43,11 +46,11 @@ class Store < ApplicationRecord
   end
 
   # 画像がnilの場合は表示しない
-  # def self.image_choose(store)
-  #   store_comments.each do |store_comment|
-  #     unless store_comment.product_image == nil
-  #       store_images << store_comment
-  #     end
-  #   end
-  # end
+  def image_choose(store_images)
+      store_comments.each do |store_comment|
+        if store_comment.product_image.present?
+          store_images << store_comment
+        end
+      end
+  end
 end

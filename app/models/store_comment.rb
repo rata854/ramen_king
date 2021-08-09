@@ -3,7 +3,7 @@ class StoreComment < ApplicationRecord
   belongs_to :store
 
   attachment :product_image
-  enum genre: { しょうゆ: 0, みそ: 1, とんこつ: 2, しお: 3 }
+  enum genre: { 総合: 0, しょうゆ: 1, みそ: 2, とんこつ: 3, しお: 4 }
 
   validates :title, presence: true, length: { maximum: 50 }
   validates :introduction, presence: true, length: { maximum: 2000 }

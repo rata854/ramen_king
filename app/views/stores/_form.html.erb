@@ -31,6 +31,21 @@
     <%= f.text_field :holiday, placeholder: '定休日', class: "form-control holiday" %>
   </div>
   <div class="form-group">
+    <%= f.label :"営業状況" %>：
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :business_status, "営業中", class: "form-check-input" %>
+      <%= f.label :"営業中", class: "form-check-label" %>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :business_status, "休業中", class: "form-check-input" %>
+      <%= f.label :"休業中", class: "form-check-label" %>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :business_status, "閉店", class: "form-check-input" %>
+      <%= f.label :"閉店", class: "form-check-label" %>
+    </div>
+  </div>
+  <div class="form-group">
     <%= f.submit class: 'btn btn-secondary' %>
   </div>
 <% end %>
