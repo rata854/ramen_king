@@ -51,17 +51,19 @@ class StoresController < ApplicationController
     @selection = params[:keyword]
     @genre = params[:genre]
     if @selection == 'new'
-      stores = Store.new_arrival(@genre)
-      @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
+      if @genre == '総合'
+        stores = Store.order(" created_at DESC ")
+      else
+        stores = Store.new_arrival(@genre)
+      end
     else
       if @genre == '総合'
         stores = Store.ranks
-        @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
       else
         stores = Store.by_genre_ranks(@genre)
-        @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
       end
     end
+    @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)
   end
 
   private

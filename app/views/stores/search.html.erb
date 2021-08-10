@@ -19,23 +19,22 @@
             </td>
             <td><%= store.address %></td>
             <td>
-              <% if @genre == 'しょうゆ' %>
-                <!--星平均部分テンプレート（しょうゆ〜とんこつまで）-->
+              <% case @genre when 'しょうゆ' %>
                 <% avg = store.store_comments.where(genre: 1).average(:rate) %>
                   <% unless avg.nil? %>
                     <%= render'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
                   <% end %>
-              <% elsif @genre == 'みそ' %>
+              <% when 'みそ' %>
                 <% avg = store.store_comments.where(genre: 2).average(:rate) %>
                   <% unless avg.nil? %>
                     <%= render 'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
                   <% end %>
-              <% elsif @genre == 'とんこつ' %>
+              <% when 'とんこつ' %>
                 <% avg = store.store_comments.where(genre: 3).average(:rate) %>
                   <% unless avg.nil? %>
                     <%= render 'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
                   <% end %>
-              <% elsif @genre == 'しお' %>
+              <% when 'しお' %>
                 <% avg = store.store_comments.where(genre: 4).average(:rate) %>
                   <% unless avg.nil? %>
                     <%= render 'shared/star_average', { rate_name: "rate" ,store: store, score: avg.nil? ? 0 : avg.round(1) } %>
