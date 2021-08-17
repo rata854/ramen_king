@@ -18,11 +18,7 @@ class Store < ApplicationRecord
   def self.my_ranks(user)
     left_joins(:store_comments).distinct.sort_by do |store|
       ranks = store.store_comments.select { |store| store.user_id == user.id }
-      if ranks.present?
-        ranks.map(&:rate).sum / ranks.size
-      else
-        0
-      end
+      ranks.present? ? ranks.map(&:rate).sum / ranks.size : 0
     end.reverse
   end
 
@@ -36,11 +32,7 @@ class Store < ApplicationRecord
     left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.
     select { |status| status.business_status == "営業中" }.sort_by do |store|
         ranks = store.store_comments.where(store_comments: { genre: genre })
-        if ranks.present?
-          ranks.map(&:rate).sum / ranks.size
-        else
-          0
-        end
+        ranks.present? ? ranks.map(&:rate).sum / ranks.size : 0
       end.reverse
   end
 

@@ -5,12 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
     joins(:store_comments).distinct.
     select { |status| status.business_status == "営業中" }.sort_by do |store|
       ranks = store.store_comments
-      # 三項演算子
-      if ranks.present?
-        ranks.map(&:rate).sum / ranks.size
-      else
-        0
-      end
+      ranks.present? ? ranks.map(&:rate).sum / ranks.size : 0
     end.reverse
   end
 
