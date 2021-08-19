@@ -18,7 +18,7 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       it '空白だと登録できない' do
         store = build(:store, store_name: '')
         expect(store).not_to be_valid
-        expect(store.errors[:store_name]).to include("can't be blank")
+        expect(store.errors[:store_name]).to include("を入力してください")
       end
 
       it '15字以下であること（15字は◯）' do
@@ -31,7 +31,7 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
         store_name = Faker::Lorem.characters(number: 16)
         store = build(:store, store_name: store_name)
         expect(store).not_to be_valid
-        expect(store.errors[:store_name]).to include("is too long (maximum is 15 characters)")
+        expect(store.errors[:store_name]).to include("は15文字以内で入力してください")
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       it '空白だと登録できない' do
         store = build(:store, address: '')
         expect(store).not_to be_valid
-        expect(store.errors[:address]).to include("can't be blank")
+        expect(store.errors[:address]).to include("を入力してください")
       end
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       it '空白だと登録できない' do
         store = build(:store, transportation: '')
         expect(store).not_to be_valid
-        expect(store.errors[:transportation]).to include("can't be blank")
+        expect(store.errors[:transportation]).to include("を入力してください")
       end
     end
 
@@ -81,7 +81,7 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       it '空白だと登録できない' do
         store = build(:store, business_day: '')
         expect(store).not_to be_valid
-        expect(store.errors[:business_day]).to include("can't be blank")
+        expect(store.errors[:business_day]).to include("を入力してください")
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       it '空白だと登録できない' do
         store = build(:store, holiday: '')
         expect(store).not_to be_valid
-        expect(store.errors[:holiday]).to include("can't be blank")
+        expect(store.errors[:holiday]).to include("を入力してください")
       end
     end
 

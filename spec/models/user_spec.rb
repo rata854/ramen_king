@@ -18,14 +18,14 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
       it '空白だと登録できない' do
         user = build(:user, name: '')
         expect(user).not_to be_valid
-        expect(user.errors[:name]).to include("can't be blank")
+        expect(user.errors[:name]).to include("を入力してください")
       end
 
       it '2文字以上であること（1文字は☓）' do
         name = Faker::Lorem.characters(number: 1)
         user = build(:user, name: name)
         expect(user).not_to be_valid
-        expect(user.errors[:name]).to include("is too short (minimum is 2 characters)")
+        expect(user.errors[:name]).to include("は2文字以上で入力してください")
       end
 
       it '2文字以上であること（2文字は◯）' do
@@ -44,14 +44,14 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
         name = Faker::Lorem.characters(number: 16)
         user = build(:user, name: name)
         expect(user).not_to be_valid
-        expect(user.errors[:name]).to include("is too long (maximum is 15 characters)")
+        expect(user.errors[:name]).to include("は15文字以内で入力してください")
       end
 
       it '一意性があること' do
         user = build(:user)
         user.name = @other_user.name
         expect(user).not_to be_valid
-        expect(user.errors[:name]).to include("has already been taken")
+        expect(user.errors[:name]).to include("はすでに存在します")
       end
     end
     
@@ -59,7 +59,7 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
       it '空白だと登録できない' do
         user = build(:user, email: '')
         expect(user).not_to be_valid
-        expect(user.errors[:email]).to include("can't be blank")
+        expect(user.errors[:email]).to include("を入力してください")
       end
 
       # it '2文字以上であること（1文字は☓）' do
@@ -92,7 +92,7 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
         user = build(:user)
         user.email = @other_user.email
         expect(user).not_to be_valid
-        expect(user.errors[:email]).to include("has already been taken")
+        expect(user.errors[:email]).to include("はすでに存在します")
       end
     end
     
@@ -100,7 +100,7 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
       it '空白だと登録できない' do
         user = build(:user, password: '')
         expect(user).not_to be_valid
-        expect(user.errors[:password]).to include("can't be blank")
+        expect(user.errors[:password]).to include("を入力してください")
       end
 
       it '6文字以上であること（5文字は☓）' do
@@ -130,7 +130,7 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
         introduction = Faker::Lorem.characters(number: 101)
         user = build(:user, introduction: introduction)
         expect(user).not_to be_valid
-        expect(user.errors[:introduction]).to include("is too long (maximum is 100 characters)")
+        expect(user.errors[:introduction]).to include("は100文字以内で入力してください")
       end
     end
 
