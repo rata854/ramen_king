@@ -3,7 +3,7 @@
     <div class="col-sm-12 col-md-8 col-lg-8 mx-auto">
     <h4>口コミ編集</h4>
       <%= form_with(model:[@store,@store_comment], url: store_store_comment_path, method: :patch, local:true) do |f| %>
-      <%= render 'layouts/errors', obj: @store_comment %>
+      <%= render 'layouts/errors', model: @store_comment %>
       <%= render 'form', f: f %>
         <div class="form-group">
           <%= f.submit class: 'btn btn-secondary' %>
