@@ -1,7 +1,13 @@
 <div class='container'>
   <div class='row'>
     <div class="col-sm-12 col-md-8 col-lg-8 mx-auto">
-    <h4>口コミ編集</h4>
+      <div class="row justify-content-between">
+        <div class="col-4"><h4>口コミ編集</h4></div>
+        <% if @store_comment.user == current_user %>
+          <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete,
+              data: { confirm: "口コミを削除しますか？" }, class: "btn btn-outline-danger" %>
+        <% end %>
+      </div>
       <%= form_with(model:[@store,@store_comment], url: store_store_comment_path, method: :patch, local:true) do |f| %>
       <%= render 'layouts/errors', model: @store_comment %>
       <%= render 'form', f: f %>

@@ -1,6 +1,6 @@
 class StoreCommentsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  before_action :ensure_correct_user, except: [:show]
+  before_action :ensure_correct_user, except: [:show, :new, :create]
 
   def show
     @store = Store.find(params[:store_id])
