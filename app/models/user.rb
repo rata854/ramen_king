@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :stores
   has_many :store_comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   attachment :profile_image
 
   validates :name, presence: true, length: { maximum: 15, minimum: 2 }, uniqueness: true

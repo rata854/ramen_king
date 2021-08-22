@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   root to: 'homes#top'
   get 'about' => 'homes#about'
   resources :stores, except: [:destroy] do
-    resources :store_comments, except: [:index]
+    resources :store_comments, except: [:index] do
+      resource :favorites, only:[:create, :destroy]
+    end
   end
   resources :users, only: [:show, :edit, :update, :destroy]
   get 'search' => 'stores#search'

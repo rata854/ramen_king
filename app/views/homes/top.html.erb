@@ -20,7 +20,7 @@
         <div class="col-md-4" >
           <div class="card-group">
             <div class="card mb-3">
-              <%= attachment_image_tag(store.store_comments.order(rate: :DESC).first, :product_image, fallback: "no_image.jpg", class: 'card-img-top') %>
+              <%= attachment_image_tag(store.store_comments.joins(:favorites).group(:id).order('count(favorites.id) DESC').first, :product_image, fallback: "no_image.jpg", class: 'card-img-top') %>
                 <div class="card-body text">
                   <h4>
                     <!--トップ3部分テンプレート-->
