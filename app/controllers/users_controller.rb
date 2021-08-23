@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
-  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :ensure_correct_user, only: [:edit, :update]
+  before_action :admin_user, only: [:destroy]
 
   def show
     @user = User.find(params[:id])
@@ -24,6 +25,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
+    
     @user.destroy
     redirect_to root_path
   end
@@ -39,6 +41,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)
+  end
+  
+  def admin_user
+    redirect_to(root_path) unless current_user.admin?
   end
 
 end
