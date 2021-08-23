@@ -39,17 +39,10 @@
             </div>
             <div class="card-footer text-muted">
               <div id="date">投稿日:<%= @store_comment.created_at.strftime('%Y/%m/%d') %></div>
-              <div id="favorites">
-                <% if @store_comment.favorited_by?(current_user) %>
-                  <%= link_to store_store_comment_favorites_path(store_comment_id: @store_comment), method: :delete do %>
-                    <i class="fas fa-heart"></i>
-                  <% end %>
-                <% else %>
-                  <%= link_to store_store_comment_favorites_path(store_comment_id: @store_comment), method: :post do %>
-                    <i class="far fa-heart"></i>
-                  <% end %>
-                <% end %>
-                <%= @store_comment.favorites.count %>
+              <div id="favorite">
+                <div id="favorite-btn-<%= @store_comment.id %>">
+                  <%= render 'favorites/favorite-btn', store_comment: @store_comment %>
+                </div>
               </div>
             </div>
         </div>
