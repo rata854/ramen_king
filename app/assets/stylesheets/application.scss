@@ -17,15 +17,33 @@
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 
-#error_explanation {
-  color:#262626; 
-  background:#FFEBE8;
-  border:2px solid #990000;
-  padding:12px; font-weight:850;
-}
-
 #notice {
   text-align: center;
   background-color: lightBlue;
   color: white;
+}
+
+// 営業状況のレイアウト
+#closed {
+  color : #f0f8ff;
+  background : #dc143c;
+}
+
+#temporary_closure {
+  color : #f0f8ff;
+  background : #ff8c00;
+}
+
+#date {
+  text-align: left;
+  float: left;
+}
+
+#user-store-status{
+  text-align: left;
+  float: left;
+}
+
+#favorite {
+  text-align: right;
 }

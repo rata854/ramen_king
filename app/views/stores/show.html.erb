@@ -2,7 +2,10 @@
   <div class='row'>
     <div class="col-sm-10 mx-auto">
       <div class="row justify-content-between">
-        <div class="col-4"><h4><%= @store.store_name %></4></div>
+        <div class="col-4"><h4><%= @store.store_name %></4>
+        <!--店舗状況表示-->
+        <%= render 'shared/business_status', store: @store %>
+        </div>
           <% if user_signed_in? %>
             <%= link_to "店舗情報編集", edit_store_path, class: "btn btn-outline-secondary" %>
           <% end %>

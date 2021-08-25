@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="card-footer text-muted">
-      <small>
+      <small id="user-store-status">
         投稿者:<%= link_to user_path(store_comment.user_id) do %>
           <%= store_comment.user.name %>
         <% end %>&ensp;|&ensp;店舗名:
@@ -25,5 +25,10 @@
           <%= store_comment.store.store_name %>
         <% end %>
       </small>
+      <div id="favorite">
+        <div id="favorite-btn-<%= store_comment.id %>">
+          <%= render 'favorites/favorite-btn', store_comment: store_comment %>
+        </div>
+      </div>
     </div>
 </div>

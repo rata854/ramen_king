@@ -2,14 +2,17 @@
   <div class='row'>
     <div class="col-sm-10 mx-auto">
       <div class="row justify-content-between">
-        <div class="col-6">
+        <div class="col-4">
           <%= link_to store_path(@store_comment.store_id) do %>
-            <h4><%= @store_comment.store.store_name %></h4>
+           <h4>
+             <%= @store_comment.store.store_name %>
+             <!--店舗状況表示-->
+             <%= render 'shared/business_status', store: @store %>
+           </h4>
           <% end %>
         </div>
           <% if @store_comment.user == current_user %>
             <%= link_to "口コミ編集", edit_store_store_comment_path(@store, @store_comment), class: "btn btn-outline-secondary" %>
-            <%= link_to "口コミ削除", store_store_comment_path(@store, @store_comment), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-outline-danger" %>
           <% end %>
       </div>
       <p><i class="fas fa-map-marked-alt"></i>&ensp;<%= @store_comment.store.address %></p>
@@ -35,7 +38,12 @@
               <div class="card-text p-3"><%= simple_format(@store_comment.introduction) %></div>
             </div>
             <div class="card-footer text-muted">
-              投稿日:<%= @store_comment.created_at.strftime('%Y/%m/%d') %>
+              <div id="date">投稿日:<%= @store_comment.created_at.strftime('%Y/%m/%d') %></div>
+              <div id="favorite">
+                <div id="favorite-btn-<%= @store_comment.id %>">
+                  <%= render 'favorites/favorite-btn', store_comment: @store_comment %>
+                </div>
+              </div>
             </div>
         </div>
     </div>

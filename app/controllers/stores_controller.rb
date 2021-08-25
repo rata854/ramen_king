@@ -9,10 +9,8 @@ class StoresController < ApplicationController
     @store = Store.find(params[:id])
     # タブ2用ページネーション
     @store_comments = @store.store_comments.page(params[:comments]).per(5)
-    # タブ3用ページネーション(画像がnilの場合非表示)
-    store_images = []
-    @store.image_choose(store_images)
-    # store_images = @store.store_comments.filter{ |store_comment| store_comment.product_image.present? }
+    # タブ3用ページネーション(画像が無い場合非表示)
+    store_images = @store.store_comments.filter{ |store_comment| store_comment.product_image.present? }
     @store_images = Kaminari.paginate_array(store_images).page(params[:images]).per(12)
 
     respond_to do |format|
@@ -58,9 +56,9 @@ class StoresController < ApplicationController
       end
     else
       if @genre == '総合'
-        stores = Store.ranks
+        stores = Store.store_ranking
       else
-        stores = Store.by_genre_ranks(@genre)
+        stores = Store.ranking_by_genre(@genre)
       end
     end
     @stores = Kaminari.paginate_array(stores).page(params[:page]).per(10)

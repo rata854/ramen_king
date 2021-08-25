@@ -20,7 +20,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
       it '空白だと登録できない' do
         store_comment = build(:store_comment, title: '')
         expect(store_comment).not_to be_valid
-        expect(store_comment.errors[:title]).to include("can't be blank")
+        expect(store_comment.errors[:title]).to include("を入力してください")
       end
 
       it '50字以下であること（50字は◯）' do
@@ -33,7 +33,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
         title = Faker::Lorem.characters(number: 51)
         store_comment = build(:store_comment, title: title)
         expect(store_comment).not_to be_valid
-        expect(store_comment.errors[:title]).to include("is too long (maximum is 50 characters)")
+        expect(store_comment.errors[:title]).to include("は50文字以内で入力してください")
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
       it '空白だと登録できない' do
         store_comment = build(:store_comment, introduction: '')
         expect(store_comment).not_to be_valid
-        expect(store_comment.errors[:introduction]).to include("can't be blank")
+        expect(store_comment.errors[:introduction]).to include("を入力してください")
       end
 
       it '50字以下であること（2000字は◯）' do
@@ -54,7 +54,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
         introduction = Faker::Lorem.characters(number: 2001)
         store_comment = build(:store_comment, introduction: introduction)
         expect(store_comment).not_to be_valid
-        expect(store_comment.errors[:introduction]).to include("is too long (maximum is 2000 characters)")
+        expect(store_comment.errors[:introduction]).to include("は2000文字以内で入力してください")
       end
     end
 
@@ -62,7 +62,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
       it 'rateの値がないと登録できない' do
         store_comment = build(:store_comment, rate: '')
         expect(store_comment).not_to be_valid
-        expect(store_comment.errors[:rate]).to include("can't be blank")
+        expect(store_comment.errors[:rate]).to include("を入力してください")
       end
     end
 

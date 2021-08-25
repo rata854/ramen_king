@@ -1,8 +1,8 @@
 class HomesController < ApplicationController
-  
+
   def top
-    # ranksで平均を計算
-    stores = Store.ranks
+    # store_rankingで平均を計算
+    stores = Store.store_ranking
     # トップ3用ランキング
     @top_ranks = stores.first(3)
     # 4位から10位までのランキング
@@ -11,5 +11,5 @@ class HomesController < ApplicationController
 
   def about
   end
-  
+
 end

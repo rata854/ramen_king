@@ -3,7 +3,7 @@
     <div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
     <h4>ユーザー情報編集</h4>
     <%= form_with model:@user, local:true do |f| %>
-      <%= render 'layouts/errors', obj: @user %>
+      <%= render 'layouts/errors', model: @user %>
       <div class="form-group">
         <%= f.label :"ユーザーネーム" %>
         <%= f.text_field :name, placeholder: "ユーザーネーム", class: "form-control name", autofocus: true %>

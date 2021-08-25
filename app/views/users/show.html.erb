@@ -12,7 +12,11 @@
       </table>
       <div class='row test-center'>
         <% if @user == current_user %>
-         <%= link_to '編集',edit_user_path(@user),class: "btn btn-outline-secondary btn-block" %>
+         <%= link_to '編集',edit_user_path(@user), class: "btn btn-outline-secondary btn-block" %>
+        <% end %>
+        <!--admin用ユーザー退会-->
+        <% if current_user.admin? && !(current_user == @user) %>
+  　       <%= link_to "ユーザーの削除", user_path(@user), method: :delete, data: { confirm: "このユーザーを削除しますか？" }, class: "btn btn-outline-danger btn-block" %>
         <% end %>
       </div>
     <h5 class='p-2 text-center'><i class="fas fa-trophy" style='color: gold;'></i><%= @user.name %>さんのランキング</h5>

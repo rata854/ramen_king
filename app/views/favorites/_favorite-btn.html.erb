@@ -1,0 +1,10 @@
+<% if store_comment.favorited_by?(current_user) %>
+  <%= link_to store_store_comment_favorites_path(store_comment_id: store_comment, store_id: store_comment.store_id), method: :delete, remote: true do %>
+    <i class="fas fa-heart"></i>
+  <% end %>
+<% else %>
+  <%= link_to store_store_comment_favorites_path(store_comment_id: store_comment, store_id: store_comment.store_id), method: :post, remote: true do %>
+    <i class="far fa-heart"></i>
+  <% end %>
+<% end %>
+<%= store_comment.favorites.count %>

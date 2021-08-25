@@ -1,0 +1,5 @@
+<% if store.business_status == "閉店" %>
+  <small id="closed">閉店</small>
+<% elsif store.business_status == "休業中" %>
+  <small id="temporary_closure">休業中</small>
+<% end %>
