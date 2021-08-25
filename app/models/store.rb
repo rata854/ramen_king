@@ -14,12 +14,22 @@ class Store < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
 
-  # 各ユーザーのランキング
+  # 総合ランキング(5件以上のコメントでランクイン)
+  def self.store_ranking
+    find(StoreComment.group(:store_id).order('avg(rate) desc').pluck(:store_id)).
+    select { |store| store.business_status == "営業中" && store.store_comments.count >= 5 }
+  end
+
+  # ジャンル別ランキング
+  def self.ranking_by_genre(genre)
+    find(StoreComment.where(store_comments: { genre: genre }).group(:store_id).order('avg(rate) desc').pluck(:store_id)).
+    select { |store| store.business_status == "営業中" }
+  end
+
+  # ユーザー別ランキング
   def self.my_ranks(user)
-    left_joins(:store_comments).distinct.sort_by do |store|
-      ranks = store.store_comments.select { |store| store.user_id == user.id }
-      ranks.present? ? ranks.map(&:rate).sum / ranks.size : 0
-    end.reverse
+    find(StoreComment.where(store_comments: { user_id: user.id }).group(:store_id).order('avg(rate) desc').pluck(:store_id)).
+    select { |store| store.business_status == "営業中" }
   end
 
   # ジャンル別の新着順
@@ -27,22 +37,4 @@ class Store < ApplicationRecord
     left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.order(created_at: :DESC)
   end
 
-  # ジャンル別のランキング
-  def self.by_genre_ranks(genre)
-    left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.
-    select { |status| status.business_status == "営業中" && status.store_comments.count >= 5 }.
-    sort_by do |store|
-        ranks = store.store_comments.where(store_comments: { genre: genre })
-        ranks.present? ? ranks.map(&:rate).sum / ranks.size : 0
-      end.reverse
-  end
-
-  # 画像がnilの場合は表示しない
-  def image_choose(store_images)
-      store_comments.each do |store_comment|
-        if store_comment.product_image.present?
-          store_images << store_comment
-        end
-      end
-  end
 end

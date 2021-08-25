@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Store, "Storeモデルのテスト", type: :model do
-  describe 'Storeモデルのテスト' do
+  describe 'バリデーションのテスト' do
     before do
       @store = FactoryBot.create(:store)
     end
@@ -92,7 +92,9 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
         expect(store.errors[:holiday]).to include("を入力してください")
       end
     end
+  end
 
+  describe 'アソシエーションのテスト' do
     context 'userモデルとの関係' do
       it 'N:1となっている' do
         expect(Store.reflect_on_association(:user)).to be_present
@@ -105,4 +107,17 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       end
     end
   end
+  
+  describe 'メソッドのテスト' do
+    before do
+      @store1 = create(:store)
+      @store1 = create(:store)
+      @store_comment = FactoryBot.create(:store_comment, user_id: @user.id, store_id: @store.id)
+    end
+    
+    cntext 'all_ranksのテスト' do
+      
+    end
+  end
+ 
 end

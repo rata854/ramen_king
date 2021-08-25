@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user_comments = @user.store_comments.page(params[:page]).per(5)
     # ユーザーのトップ3ランキング
-    @my_ranks = Store.my_ranks(@user).first(3)
+    @my_ranks = Store.my_ranks(@user)
   end
 
   def edit
@@ -25,16 +25,8 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    
     @user.destroy
     redirect_to root_path
-  end
-
-  def ensure_correct_user
-    @user = User.find(params[:id])
-    unless @user == current_user
-      redirect_to user_path(current_user)
-    end
   end
 
   private
@@ -43,6 +35,13 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :introduction, :profile_image)
   end
   
+  def ensure_correct_user
+    @user = User.find(params[:id])
+    unless @user == current_user
+      redirect_to user_path(current_user)
+    end
+  end
+
   def admin_user
     redirect_to(root_path) unless current_user.admin?
   end
