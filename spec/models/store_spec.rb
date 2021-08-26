@@ -110,13 +110,13 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
   
   describe 'メソッドのテスト' do
     before do
-      @store1 = create(:store)
-      @store1 = create(:store)
-      @store_comment = FactoryBot.create(:store_comment, user_id: @user.id, store_id: @store.id)
+      @store_comment = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 1.0)
+      @store_comment2 = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 3.0)
+      @store_comment3 = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 2.0)
     end
     
     cntext 'all_ranksのテスト' do
-      
+      it 'コメントの平均点数が計算できている'
     end
   end
  

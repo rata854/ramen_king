@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe User, "Userモデルのテスト", type: :model do
-  describe 'Userモデルのテスト' do
+  describe 'バリデーションのテスト' do
     before do
       @other_user = create(:user)
     end
@@ -143,6 +143,12 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
     context 'store_commentsモデルとの関係' do
       it '1:Nとなっている' do
         expect(User.reflect_on_association(:store_comments)).to be_present
+      end
+    end
+    
+    context 'favoritesモデルとの関係' do
+      it '1:Nとなっている' do
+         expect(User.reflect_on_association(:favorites)).to be_present
       end
     end
   end
