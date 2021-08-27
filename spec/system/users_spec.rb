@@ -24,8 +24,8 @@ RSpec.describe 'Users', type: :system do
         it 'password_confirmationが表示されている' do
           expect(page).to have_field 'user[password_confirmation]'
         end
-        it 'Sign_upボタンが表示されている' do
-          expect(page).to have_button 'Sign up'
+        it '新規登録ボタンが表示されている' do
+          expect(page).to have_button '新規登録'
         end
       end
       context '新規登録のテスト' do
@@ -36,24 +36,20 @@ RSpec.describe 'Users', type: :system do
           fill_in 'user[password_confirmation]', with: 'password'
         end
         it '正しく新規登録される' do
-          expect { click_button 'Sign up' }.to change(User.all, :count).by(1)
+          expect { click_button '新規登録' }.to change(User.all, :count).by(1)
         end
         it '新規登録後、ログインしたユーザー詳細画面に遷移するか' do
-          click_button 'Sign up'
+          click_button '新規登録'
           expect(current_path).to eq '/users/' + User.last.id.to_s
         end
       end
     end
-  end
 
-  describe 'ログイン後のユーザーテスト' do
-    before do
-      @user = create(:user)
-    end
-    describe 'ログイン画面のテスト'
-    before do
-      visit new_user_session_path
-    end
+    describe 'ログイン画面のテスト' do
+      before do
+        visit new_user_session_path
+      end
+
       context '表示内容の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/users/sign_in'
@@ -64,25 +60,55 @@ RSpec.describe 'Users', type: :system do
         it 'passwordフォームが表示される' do
           expect(page).to have_field 'user[password]'
         end
-        it 'Log inボタンが表示される' do
-          expect(page).to have_button 'Log in'
+        it 'ログインボタンが表示される' do
+          expect(page).to have_button 'ログイン'
         end
       end
       context 'ログイン成功のテスト' do
         before do
+          @user = FactoryBot.create(:user)
           fill_in 'user[email]', with: @user.email
           fill_in 'user[password]', with: @user.password
-          click_button 'Log in'
+          click_button 'ログイン'
         end
         it 'ログイン後、ログインしたユーザー詳細画面に遷移している' do
           expect(current_path).to eq '/users/' + @user.id.to_s
         end
+      end
     end
+  end
+
+  describe 'ログイン後のユーザーテスト' do
+    before do
+      @user = FactoryBot.create(:user)
+      @other_user = FactoryBot.create(:user)
+      visit new_user_session_path
+      fill_in 'user[email]', with: @user.email
+      fill_in 'user[password]', with: @user.password
+      click_button 'ログイン'
+    end
+
+    describe 'ユーザー詳細画面のテスト' do
+      context '本人のユーザー詳細画面の場合' do
+      before do
+        visit user_path(@user)
+      end
+        it 'ユーザー編集画面へのリンクが存在する' do
+          expect(page).to have_link '', href: edit_user_path(@user)
+        end
+      end
+      context '他人のユーザー詳細画面の場合' do
+      before do
+        visit user_path(@other_user)
+      end
+        it 'ユーザー編集画面へのリンクが存在しない' do
+          expect(page).not_to have_link '', href: edit_user_path(@other_user)
+        end
+      end
+    end
+
     describe 'ユーザー編集画面のテスト' do
       before do
-        fill_in 'user[email]', with: @user.email
-        fill_in 'user[password]', with: @user.password
-        click_button 'Log in'
         visit edit_user_path(@user)
       end
       context '表示の確認' do
@@ -98,15 +124,15 @@ RSpec.describe 'Users', type: :system do
         it 'プロフィール画像編集フォームが表示されている' do
           expect(page).to have_field 'user[profile_image]'
         end
-        it 'update userボタンが表示されている' do
-          expect(page).to have_button 'Update User'
+        it '更新する userボタンが表示されている' do
+          expect(page).to have_button '更新する'
         end
       end
       context '編集成功のテスト' do
         before do
           fill_in 'user[name]', with: 'test@example.com'
           fill_in 'user[introduction]', with: 'test'
-          click_button 'Update'
+          click_button '更新する'
         end
         it '編集成功後マイページに遷移している' do
           expect(current_path).to eq '/users/' + @user.id.to_s
@@ -114,5 +140,4 @@ RSpec.describe 'Users', type: :system do
       end
     end
   end
-  
 end

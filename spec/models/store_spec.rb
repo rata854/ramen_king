@@ -107,17 +107,22 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
       end
     end
   end
-  
+
   describe 'メソッドのテスト' do
     before do
-      @store_comment = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 1.0)
-      @store_comment2 = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 3.0)
-      @store_comment3 = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 2.0)
+      @comment = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 1.0)
+      @comment2 = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 2.0)
+      @comment3 = create(:store_comment, user_id: @user.id, store_id: @store.id, rate: 3.0)
     end
-    
-    cntext 'all_ranksのテスト' do
-      it 'コメントの平均点数が計算できている'
+
+    context 'all_ranksのテスト' do
+      it 'コメントの平均点数が計算できている' do
+        expect([@comment, @comment2, @comment3].all_ranks).to eq [@comment3, @comment2, @comment]
+      end
+      it 'コメントの平均点数が計算できている' do
+        expect([@comment, @comment2, @comment3].all_ranks).to eq rate: 2.0
+      end
     end
   end
- 
+
 end
