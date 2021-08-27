@@ -5,5 +5,8 @@ FactoryBot.define do
     introduction { Faker::Lorem.characters(number: 50) }
     password { 'password' }
     password_confirmation { 'password' }
+    trait :admin do
+      admin { true }
+    end
   end
 end

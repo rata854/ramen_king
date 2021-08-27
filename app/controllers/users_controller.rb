@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user_comments = @user.store_comments.page(params[:page]).per(5)
     # ユーザーのトップ3ランキング
-    @my_ranks = Store.my_ranks(@user)
+    @my_ranks = Store.my_ranks(@user).first(3)
   end
 
   def edit
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)
   end
-  
+
   def ensure_correct_user
     @user = User.find(params[:id])
     unless @user == current_user

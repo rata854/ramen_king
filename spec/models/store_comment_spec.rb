@@ -6,7 +6,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
     before do
       @user = FactoryBot.create(:user)
       @store = FactoryBot.create(:store)
-      @store_comment = FactoryBot.create(:store_comment, user_id: @user.id, store_id: @store.id)
+      @store_comment = FactoryBot.create(:store_comment)
     end
 
  describe 'バリデーションのテスト' do
@@ -66,7 +66,7 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
       end
     end
   end
-  
+
   describe 'アソシエーションのテスト' do
     context 'userモデルとの関係' do
       it 'N:1となっている' do
@@ -79,23 +79,21 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
         expect(StoreComment.reflect_on_association(:store)).to be_present
       end
     end
-    
+
     context 'favoritesモデルとの関係' do
       it '1:Nとなっている' do
          expect(StoreComment.reflect_on_association(:favorites)).to be_present
       end
     end
   end
-  
+
   describe 'メソッドのテスト' do
     context 'favorited_by?メソッド' do
-    # before do
-    #   user = create(:user)
-    #   store_comment = create(:store_comment, user_id: user.id, store_id: @store.id)
-    # end
+    before do
+      @favorite = create(:favorite)
+    end
       it 'コメントにいいねをつけている場合trueを返す' do
-        store_comment = build(:store_comment, favoriteds_id: 1)
-        expect(store_comment).to be_truthy
+        expect(@favorite.favorited_by?(@favorite.user_id)).to be_truthy
       end
       it 'コメントにいいねをつけていない場合falseを返すbe_falsey '
     end
