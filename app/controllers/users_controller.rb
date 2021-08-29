@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user_comments = @user.store_comments.page(params[:page]).per(5)
     # ユーザーのトップ3ランキング
-    @my_ranks = Store.my_ranks(@user).first(3)
+    @my_ranking = Store.my_ranking(@user).first(3)
   end
 
   def edit
