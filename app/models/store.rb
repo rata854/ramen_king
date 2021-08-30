@@ -3,13 +3,13 @@ class Store < ApplicationRecord
   has_many :store_comments
 
   enum business_status: { 営業中: 0, 休業中: 1, 閉店: 2 }
-  validates :store_name, presence: true, length: { maximum: 15 }
-  validates :menu, presence: true
+  validates :store_name, presence: true, length: { maximum: 50 }
+  validates :menu, presence: true, length: { maximum: 100 }
   validates :postal_code, presence: true, numericality: { only_integer: true }, length: { is: 7 }
-  validates :address, presence: true
-  validates :transportation, presence: true
-  validates :business_day, presence: true
-  validates :holiday, presence: true
+  validates :address, presence: true, length: { maximum: 50 }
+  validates :transportation, presence: true, length: { maximum: 50 }
+  validates :business_day, presence: true, length: { maximum: 50 }
+  validates :holiday, presence: true, length: { maximum: 10 }
   # geocodeを適用するための記述
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
@@ -27,7 +27,7 @@ class Store < ApplicationRecord
   end
 
   # ユーザー別ランキング
-  def self.my_ranks(user)
+  def self.my_ranking(user)
     find(StoreComment.where(store_comments: { user_id: user.id }).group(:store_id).order('avg(rate) desc').pluck(:store_id)).
     select { |store| store.business_status == "営業中" }
   end

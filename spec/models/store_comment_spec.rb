@@ -3,16 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model do
-    before do
-      @user = FactoryBot.create(:user)
-      @store = FactoryBot.create(:store)
-      @store_comment = FactoryBot.create(:store_comment)
-    end
 
- describe 'バリデーションのテスト' do
+  describe 'バリデーションのテスト' do
+    let!(:store_comment) { create(:store_comment) }
     context '登録ができるか' do
       it "全ての情報があれば登録できる" do
-        expect(@store_comment).to be_valid
+        expect(store_comment).to be_valid
       end
     end
 
@@ -22,13 +18,11 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
         expect(store_comment).not_to be_valid
         expect(store_comment.errors[:title]).to include("を入力してください")
       end
-
       it '50字以下であること（50字は◯）' do
         title = Faker::Lorem.characters(number: 50)
         store_comment = build(:store_comment, title: title)
         expect(store_comment).to be_valid
       end
-
       it '50字以下であること（51字は☓）' do
         title = Faker::Lorem.characters(number: 51)
         store_comment = build(:store_comment, title: title)
@@ -43,13 +37,11 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
         expect(store_comment).not_to be_valid
         expect(store_comment.errors[:introduction]).to include("を入力してください")
       end
-
       it '50字以下であること（2000字は◯）' do
         introduction = Faker::Lorem.characters(number: 2000)
         store_comment = build(:store_comment, introduction: introduction)
         expect(store_comment).to be_valid
       end
-
       it '50字以下であること（2001字は☓）' do
         introduction = Faker::Lorem.characters(number: 2001)
         store_comment = build(:store_comment, introduction: introduction)
@@ -63,6 +55,14 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
         store_comment = build(:store_comment, rate: '')
         expect(store_comment).not_to be_valid
         expect(store_comment.errors[:rate]).to include("を入力してください")
+      end
+    end
+
+    context 'genreカラム' do
+      it 'genreの値がないと登録できない' do
+        store_comment = build(:store_comment, genre: '')
+        expect(store_comment).not_to be_valid
+        expect(store_comment.errors[:genre]).to include("を入力してください")
       end
     end
   end
@@ -89,13 +89,19 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
 
   describe 'メソッドのテスト' do
     context 'favorited_by?メソッド' do
-    before do
-      @favorite = create(:favorite)
-    end
-      it 'コメントにいいねをつけている場合trueを返す' do
-        expect(@favorite.favorited_by?(@favorite.user_id)).to be_truthy
+      let!(:current_user) { create(:user) }
+      let!(:current_comment) { create(:store_comment, user_id: current_user.id) }
+      let!(:current_favorite) { create(:favorite, user_id: current_user.id, store_comment_id: current_comment.id) }
+      let!(:other_user) { create(:user) }
+      let!(:other_comment) { create(:store_comment, user_id: other_user.id) }
+      let!(:other_favorite) { create(:favorite, user_id: other_user.id, store_comment_id: other_comment.id) }
+      
+      it 'コメントに紐付いたのfavoritesモデルに自分のuser_idが入っている場合はtrueを返す' do
+        expect(current_comment.favorited_by?(current_user)).to be_truthy
       end
-      it 'コメントにいいねをつけていない場合falseを返すbe_falsey '
+      it 'コメントに紐付いたのfavoritesモデルに自分のuser_idが入っていない場合はfalseを返す' do
+        expect(other_comment.favorited_by?(current_user)).to be_falsey
+      end
     end
   end
 end
