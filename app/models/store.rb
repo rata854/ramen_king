@@ -3,7 +3,7 @@ class Store < ApplicationRecord
   has_many :store_comments
 
   enum business_status: { 営業中: 0, 休業中: 1, 閉店: 2 }
-  validates :store_name, length: { maximum: 50 }
+  validates :store_name, presence: true, length: { maximum: 50 }
   validates :menu, presence: true, length: { maximum: 100 }
   validates :postal_code, presence: true, numericality: { only_integer: true }, length: { is: 7 }
   validates :address, presence: true, length: { maximum: 50 }

@@ -4,12 +4,11 @@ require 'rails_helper'
 
 RSpec.describe User, "Userモデルのテスト", type: :model do
   describe 'バリデーションのテスト' do
-    before do
-      @other_user = create(:user)
-    end
+    let!(:other_user) { create(:user) }
+    
     context '登録ができるか' do
       it "名前、emailアドレス、パスワードがあれば登録できる" do
-        expect(@other_user).to be_valid
+        expect(other_user).to be_valid
       end
     end
 
@@ -43,7 +42,7 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
       end
       it '一意性があること' do
         user = build(:user)
-        user.name = @other_user.name
+        user.name = other_user.name
         expect(user).not_to be_valid
         expect(user.errors[:name]).to include("はすでに存在します")
       end
@@ -68,7 +67,7 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
       end
       it '一意性があること' do
         user = build(:user)
-        user.email = @other_user.email
+        user.email = other_user.email
         expect(user).not_to be_valid
         expect(user.errors[:email]).to include("はすでに存在します")
       end

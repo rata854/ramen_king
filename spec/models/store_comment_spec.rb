@@ -3,14 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model do
-    before do
-      @store_comment = create(:store_comment)
-    end
 
- describe 'バリデーションのテスト' do
+  describe 'バリデーションのテスト' do
+    let!(:store_comment) { create(:store_comment) }
     context '登録ができるか' do
       it "全ての情報があれば登録できる" do
-        expect(@store_comment).to be_valid
+        expect(store_comment).to be_valid
       end
     end
 
@@ -91,19 +89,18 @@ RSpec.describe StoreComment, "StoreCommentモデルのテスト", type: :model d
 
   describe 'メソッドのテスト' do
     context 'favorited_by?メソッド' do
-    before do
-      @current_user = create(:user)
-      @current_comment = create(:store_comment, user_id: @current_user.id)
-      current_favorite = create(:favorite, store_comment_id: @current_comment.id, user_id: @current_user.id)
-      user = create(:user)
-      @other_comment = create(:store_comment, user_id: user.id)
-      other_favorite = create(:favorite, store_comment_id: @other_comment.id, user_id: user.id)
-    end
+      let!(:current_user) { create(:user) }
+      let!(:current_comment) { create(:store_comment, user_id: current_user.id) }
+      let!(:current_favorite) { create(:favorite, user_id: current_user.id, store_comment_id: current_comment.id) }
+      let!(:other_user) { create(:user) }
+      let!(:other_comment) { create(:store_comment, user_id: other_user.id) }
+      let!(:other_favorite) { create(:favorite, user_id: other_user.id, store_comment_id: other_comment.id) }
+      
       it 'コメントに紐付いたのfavoritesモデルに自分のuser_idが入っている場合はtrueを返す' do
-        expect(@current_comment.favorited_by?(@current_user)).to be_truthy
+        expect(current_comment.favorited_by?(current_user)).to be_truthy
       end
       it 'コメントに紐付いたのfavoritesモデルに自分のuser_idが入っていない場合はfalseを返す' do
-        expect(@other_comment.favorited_by?(@current_user)).to be_falsey
+        expect(other_comment.favorited_by?(current_user)).to be_falsey
       end
     end
   end
