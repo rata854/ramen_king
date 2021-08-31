@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe User, "Userモデルのテスト", type: :model do
   describe 'バリデーションのテスト' do
     let!(:other_user) { create(:user) }
-    
+
     context '登録ができるか' do
       it "名前、emailアドレス、パスワードがあれば登録できる" do
         expect(other_user).to be_valid
@@ -62,7 +62,7 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
       it '255字以内であること（256字は☓）' do
         email = Faker::Lorem.characters(number: 244) + "@example.com"
         user = build(:user, email: email)
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:email]).to include("は255文字以内で入力してください")
       end
       it '一意性があること' do
@@ -115,14 +115,16 @@ RSpec.describe User, "Userモデルのテスト", type: :model do
         expect(User.reflect_on_association(:stores)).to be_present
       end
     end
+
     context 'store_commentsモデルとの関係' do
       it '1:Nとなっている' do
         expect(User.reflect_on_association(:store_comments)).to be_present
       end
     end
+
     context 'favoritesモデルとの関係' do
       it '1:Nとなっている' do
-         expect(User.reflect_on_association(:favorites)).to be_present
+        expect(User.reflect_on_association(:favorites)).to be_present
       end
     end
   end

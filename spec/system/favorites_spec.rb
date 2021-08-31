@@ -7,7 +7,7 @@ RSpec.describe "Favorite", type: :system do
   end
 
   describe 'いいね機能のテスト' do
-        before do
+    before do
       visit new_user_session_path
       fill_in 'user[email]', with: @user.email
       fill_in 'user[password]', with: @user.password
@@ -23,5 +23,4 @@ RSpec.describe "Favorite", type: :system do
       end
     end
   end
-
 end

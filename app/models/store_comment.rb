@@ -10,9 +10,8 @@ class StoreComment < ApplicationRecord
   validates :introduction, presence: true, length: { maximum: 2000 }
   validates :rate, presence: true
   validates :genre, presence: true
-  
+
   def favorited_by?(user)
     favorites.where(user_id: user.id).exists?
   end
-  
 end

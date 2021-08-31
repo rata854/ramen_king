@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'about' => 'homes#about'
   resources :stores, except: [:destroy] do
     resources :store_comments, except: [:index] do
-      resource :favorites, only:[:create, :destroy]
+      resource :favorites, only: [:create, :destroy]
     end
   end
   resources :users, only: [:show, :edit, :update, :destroy]
