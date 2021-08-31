@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Store, "Storeモデルのテスト", type: :model do
-
   describe 'バリデーションのテスト' do
     let!(:store) { create(:store) }
+
     context '登録ができるか' do
       it "全ての店舗情報があれば登録できる" do
         expect(store).to be_valid
@@ -169,41 +169,67 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
   end
 
   describe 'ランキングメソッドのテスト' do
-    let!(:user) { create(:user) }
     before do
       @miso = 'みそ'
     end
+
+    let!(:user) { create(:user) }
     let!(:low_score_store) { create(:store) }
-    let!(:low_score_comments) { create_list(:store_comment, 5, user_id: user.id, store_id: low_score_store.id, genre: @miso, rate: 2.0 ) }
     let!(:middle_score_store) { create(:store) }
-    let!(:middle_score_comments) { create_list(:store_comment, 5, user_id: user.id, store_id: middle_score_store.id, genre: @miso, rate: 3.0 ) }
     let!(:high_score_store) { create(:store) }
-    let!(:high_score_comments) { create_list(:store_comment, 5, user_id: user.id, store_id: high_score_store.id, genre: @miso, rate: 4.0 ) }
+    let!(:low_score_comments) do
+      create_list(:store_comment, 5,
+                  user_id: user.id, store_id: low_score_store.id, genre: @miso, rate: 2.0)
+    end
+    let!(:middle_score_comments) do
+      create_list(:store_comment, 5,
+                  user_id: user.id, store_id: middle_score_store.id, genre: @miso, rate: 3.0)
+    end
+    let!(:high_score_comments) do
+      create_list(:store_comment, 5,
+                  user_id: user.id, store_id: high_score_store.id, genre: @miso, rate: 4.0)
+    end
 
     describe 'メソッドの動作に関するテスト' do
       context '昇順入れ替えのテスト' do
         it '平均点が高い順に入れ替えられている(store_ranking)' do
-          expect(Store.store_ranking).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.store_ranking).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
         it '平均点が高い順に入れ替えられている(ranking_by_genre)' do
-          expect(Store.ranking_by_genre(@miso)).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.ranking_by_genre(@miso)).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
         it '平均点が高い順に入れ替えられている(my_ranking)' do
-          expect(Store.my_ranking(user)).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.my_ranking(user)).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
       end
-      context'計算方法のテスト' do
+
+      context '計算方法のテスト' do
         let!(:many_comments_store) { create(:store) }
-        let!(:many_comments) { create_list(:store_comment, 25, user_id: user.id, store_id: many_comments_store.id, genre: @miso, rate: 1.0 ) }
+        let!(:many_comments) do
+          create_list(:store_comment, 25,
+                      user_id: user.id, store_id: many_comments_store.id, genre: @miso, rate: 1.0)
+        end
 
         it '合計点ではなく平均点で計算されている(store_ranking)' do
-          expect(Store.store_ranking).to eq [high_score_store, middle_score_store, low_score_store, many_comments_store]
+          expect(Store.store_ranking).to eq [
+            high_score_store, middle_score_store, low_score_store, many_comments_store,
+          ]
         end
         it '合計点ではなく平均点で計算されている(ranking_by_genre)' do
-          expect(Store.ranking_by_genre(@miso)).to eq [high_score_store, middle_score_store, low_score_store, many_comments_store]
+          expect(Store.ranking_by_genre(@miso)).to eq [
+            high_score_store, middle_score_store, low_score_store, many_comments_store,
+          ]
         end
         it '合計点ではなく平均点で計算されている(my_ranking)' do
-          expect(Store.my_ranking(user)).to eq [high_score_store, middle_score_store, low_score_store, many_comments_store]
+          expect(Store.my_ranking(user)).to eq [
+            high_score_store, middle_score_store, low_score_store, many_comments_store,
+          ]
         end
       end
     end
@@ -211,49 +237,80 @@ RSpec.describe Store, "Storeモデルのテスト", type: :model do
     describe 'メソッドの制限に関するテスト' do
       context '共通の制限に関するテスト' do
         let!(:clised_store) { create(:store, business_status: '閉店') }
-        let!(:clised_comments) { create_list(:store_comment, 5, user_id: user.id, store_id: clised_store.id, genre: @miso, rate: 3.0 ) }
         let!(:shutdown_store) { create(:store, business_status: '休業中') }
-        let!(:shutdown_comments) { create_list(:store_comment, 5, user_id: user.id, store_id: shutdown_store.id, genre: @miso, rate: 3.0 ) }
+        let!(:clised_comments) do
+          create_list(:store_comment, 5,
+                      user_id: user.id, store_id: clised_store.id, genre: @miso, rate: 3.0)
+        end
+        let!(:shutdown_comments) do
+          create_list(:store_comment, 5,
+                      user_id: user.id, store_id: shutdown_store.id, genre: @miso, rate: 3.0)
+        end
 
         it '店舗ステータスが営業中でないとランクインされない(store_ranking)' do
-          expect(Store.store_ranking).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.store_ranking).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
         it '店舗ステータスが営業中でないとランクインされない(ranking_by_genre)' do
-          expect(Store.ranking_by_genre(@miso)).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.ranking_by_genre(@miso)).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
         it '店舗ステータスが営業中でないとランクインされない(my_ranking)' do
-          expect(Store.my_ranking(user)).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.my_ranking(user)).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
       end
+
       context 'store_rankingの制限に関するテスト' do
         let!(:few_comments_store) { create(:store) }
-        let!(:few_comments) { create_list(:store_comment, 4, store_id: few_comments_store.id, genre: @miso, rate: 3.0 ) }
+        let!(:few_comments) do
+          create_list(:store_comment, 4,
+                      store_id: few_comments_store.id, genre: @miso, rate: 3.0)
+        end
 
         it 'コメントの件数が5件以上でないとランクインされない（4件以下は☓）' do
-          expect(Store.store_ranking).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.store_ranking).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
       end
+
       context 'ranking_by_genreの制限に関するテスト' do
         before do
           @soy_sauce = 'しょうゆ'
         end
+
         let!(:soy_sauce_store) { create(:store) }
-        let!(:soy_sauce_comments) { create_list(:store_comment, 3, store_id: soy_sauce_store.id, genre: @soy_sauce, rate: 3.0 ) }
+        let!(:soy_sauce_comments) do
+          create_list(:store_comment, 3,
+                      store_id: soy_sauce_store.id, genre: @soy_sauce, rate: 3.0)
+        end
 
         it '指定したジャンル別にランキング結果が表示される（しょうゆ）' do
           expect(Store.ranking_by_genre(@soy_sauce)).to eq [soy_sauce_store]
         end
         it '指定したジャンル別にランキング結果が表示される（みそ）' do
-          expect(Store.ranking_by_genre(@miso)).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.ranking_by_genre(@miso)).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
       end
+
       context 'my_rankingの制限に関するテスト' do
         let!(:other_user) { create(:user) }
         let!(:other_comments_store) { create(:store) }
-        let!(:other_comments) { create_list(:store_comment, 3, user_id: other_user.id, store_id: other_comments_store.id, genre: @miso, rate: 3.0 ) }
+        let!(:other_comments) do
+          create_list(:store_comment, 3, user_id: other_user.id,
+                                         store_id: other_comments_store.id, genre: @miso, rate: 3.0)
+        end
 
         it 'userの投稿のみランキング結果が表示される' do
-          expect(Store.my_ranking(user)).to eq [high_score_store, middle_score_store, low_score_store]
+          expect(Store.my_ranking(user)).to eq [
+            high_score_store, middle_score_store, low_score_store,
+          ]
         end
         it 'other_userの投稿のみランキング結果が表示される' do
           expect(Store.my_ranking(other_user)).to eq [other_comments_store]

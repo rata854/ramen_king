@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Store, "Favoriteモデルのテスト", type: :model do
   let!(:favorite) { create(:favorite) }
 
-   describe '正常値と異常値の確認' do
+  describe '正常値と異常値の確認' do
     context 'favoriteモデルのバリデーション' do
       it "user_idとstore_comment_idがあれば保存できる" do
         expect(create(:favorite)).to be_valid

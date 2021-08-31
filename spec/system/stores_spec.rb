@@ -6,33 +6,37 @@ RSpec.describe 'Stores', type: :system do
   before do
     @store = FactoryBot.create(:store)
   end
+
   describe 'ログイン前' do
     describe '店舗一覧画面のテスト' do
       before do
         visit stores_path
       end
+
       context '表示の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/stores'
         end
         it 'ログインしてないと店舗詳細画面へのリンクは存在しない' do
-          expect(page).to_not have_link '新規店舗登録'
+          expect(page).not_to have_link '新規店舗登録'
         end
       end
     end
+
     describe '店舗詳細画面' do
       before do
         visit store_path(@store)
       end
+
       context '表示の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/stores/' + @store.id.to_s
         end
         it 'ログインしてないと店舗編集画面へのリンクが存在しない' do
-          expect(page).to_not have_link '店舗情報編集'
+          expect(page).not_to have_link '店舗情報編集'
         end
         it 'ログインしてないと口コミ投稿画面へのリンクが存在しない' do
-          expect(page).to_not have_link '新規口コミ作成'
+          expect(page).not_to have_link '新規口コミ作成'
         end
       end
     end
@@ -46,10 +50,12 @@ RSpec.describe 'Stores', type: :system do
       fill_in 'user[password]', with: @user.password
       click_button 'ログイン'
     end
+
     describe '店舗一覧画面のテスト' do
       before do
         visit stores_path
       end
+
       context '表示の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/stores'
@@ -59,10 +65,12 @@ RSpec.describe 'Stores', type: :system do
         end
       end
     end
+
     describe '店舗詳細画面' do
       before do
         visit store_path(@store)
       end
+
       context '表示の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/stores/' + @store.id.to_s
@@ -76,11 +84,11 @@ RSpec.describe 'Stores', type: :system do
       end
     end
 
-
     describe '店舗登録編集画面のテスト' do
       before do
         visit new_store_path
       end
+
       context '表示の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/stores/new'
@@ -110,6 +118,7 @@ RSpec.describe 'Stores', type: :system do
           expect(page).to have_button 'Create Store'
         end
       end
+
       context '店舗登録のテスト' do
         before do
           fill_in 'store[store_name]', with: Faker::Lorem.characters(number: 5)
@@ -120,6 +129,7 @@ RSpec.describe 'Stores', type: :system do
           fill_in 'store[business_day]', with: '[月〜土 10:00~20:00]'
           fill_in 'store[holiday]', with: '日曜日'
         end
+
         it '正しく登録される' do
           expect { click_button 'Create Store' }.to change(Store.all, :count).by(1)
         end
@@ -134,6 +144,7 @@ RSpec.describe 'Stores', type: :system do
       before do
         visit edit_store_path(@store)
       end
+
       context '表示の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/stores/' + @store.id.to_s + '/edit'
@@ -163,6 +174,7 @@ RSpec.describe 'Stores', type: :system do
           expect(page).to have_button 'Update Store'
         end
       end
+
       context '店舗登録編集のテスト' do
         before do
           fill_in 'store[store_name]', with: Faker::Lorem.characters(number: 5)
@@ -173,6 +185,7 @@ RSpec.describe 'Stores', type: :system do
           fill_in 'store[business_day]', with: '[火〜日 11:00~21:00]'
           fill_in 'store[holiday]', with: '月曜日'
         end
+
         it '店舗編集登録後、登録した店舗詳細画面へ遷移してる' do
           click_button 'Update Store'
           expect(current_path).to eq '/stores/' + @store.id.to_s
@@ -183,26 +196,26 @@ RSpec.describe 'Stores', type: :system do
 
   describe '店舗検索画面のテスト' do
     context '表示の確認' do
-    before do
-      visit search_path
-    end
+      before do
+        visit search_path
+      end
+
       it 'URLが正しい' do
         expect(current_path).to eq '/search'
       end
     end
 
     context '検索機能の確認' do
-    before do
-      visit stores_path
-    end
-    it '検索ワードを選択すると、選択したワードのページに遷移する' do
-      select '評価順', from: 'keyword'
-      select 'みそ', from: 'genre'
-      click_button '検索'
-      expect(current_path).to eq '/search'
-    end
+      before do
+        visit stores_path
+      end
 
+      it '検索ワードを選択すると、選択したワードのページに遷移する' do
+        select '評価順', from: 'keyword'
+        select 'みそ', from: 'genre'
+        click_button '検索'
+        expect(current_path).to eq '/search'
+      end
     end
-
   end
 end

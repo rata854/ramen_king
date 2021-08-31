@@ -50,12 +50,11 @@ class StoreCommentsController < ApplicationController
     params.require(:store_comment).permit(:title, :introduction, :product_image,
                                           :rate, :genre, :store_id)
   end
-  
+
   def ensure_correct_user
     @store_comment = StoreComment.find(params[:id])
     unless @store_comment.user_id == current_user.id
       redirect_to store_store_comment_path(current_user)
     end
   end
-
 end

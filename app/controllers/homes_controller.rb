@@ -1,5 +1,4 @@
 class HomesController < ApplicationController
-
   def top
     # store_rankingで平均を計算
     stores = Store.store_ranking
@@ -11,5 +10,4 @@ class HomesController < ApplicationController
 
   def about
   end
-
 end

@@ -26,19 +26,19 @@ RSpec.describe 'StoreComments', type: :system do
     end
 
     describe '口コミ詳細画面のテスト' do
-    before do
-      visit store_store_comment_path(@store_comment.store_id, @store_comment.id)
-    end
+      before do
+        visit store_store_comment_path(@store_comment.store_id, @store_comment.id)
+      end
 
       context '表示の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/stores/' + @store_comment.store_id.to_s + '/store_comments/' + @store_comment.id.to_s
         end
         it '投稿者以外は口コミの編集ボタンが表示されない' do
-          expect(page).to_not have_link '口コミ編集'
+          expect(page).not_to have_link '口コミ編集'
         end
         it '投稿者以外は口コミの削除ボタンが表示されない' do
-          expect(page).to_not have_link '口コミ削除'
+          expect(page).not_to have_link '口コミ削除'
         end
       end
     end
@@ -51,9 +51,7 @@ RSpec.describe 'StoreComments', type: :system do
       it '他人の投稿編集画面には遷移出来ず、投稿詳細画面に遷移する' do
         expect(current_path).to eq '/stores/' + @store_comment.store_id.to_s + '/store_comments/' + @store_comment.id.to_s
       end
-
     end
-
   end
 
   describe '自分の口コミ' do
@@ -65,9 +63,9 @@ RSpec.describe 'StoreComments', type: :system do
     end
 
     describe '口コミ詳細画面のテスト' do
-    before do
-      visit store_store_comment_path(@store_comment.store_id, @store_comment.id)
-    end
+      before do
+        visit store_store_comment_path(@store_comment.store_id, @store_comment.id)
+      end
 
       context '表示の確認' do
         it 'URLが正しい' do
@@ -80,7 +78,6 @@ RSpec.describe 'StoreComments', type: :system do
           expect(page).to have_link '口コミ削除', href: store_store_comment_path(@store_comment.store_id, @store_comment.id)
         end
       end
-
     end
 
     describe '口コミ編集画面' do
@@ -113,22 +110,19 @@ RSpec.describe 'StoreComments', type: :system do
       end
 
       context '投稿編集のテスト' do
-      #   before do
-      #     fill_in 'store_comment[title]', with: Faker::Lorem.characters(number: 5)
-      #     # fill_in 'store_comment[rate]', with: find('#star').find("img[alt='2']").click
-      #     fill_in 'store_comment[introduction]', with: Faker::Lorem.characters(number: 500)
-      #     # fill_in 'store_comment[product_image]'
-      #     # fill_in 'store_comment[genre]', with: 'しょうゆ'
-      #   end
+        #   before do
+        #     fill_in 'store_comment[title]', with: Faker::Lorem.characters(number: 5)
+        #     # fill_in 'store_comment[rate]', with: find('#star').find("img[alt='2']").click
+        #     fill_in 'store_comment[introduction]', with: Faker::Lorem.characters(number: 500)
+        #     # fill_in 'store_comment[product_image]'
+        #     # fill_in 'store_comment[genre]', with: 'しょうゆ'
+        #   end
 
-      #   it '投稿編集後、編集した店舗詳細画面へ遷移してる' do
-      #     click_button 'Create Store'
-      #     expect(current_path).to eq  expect(current_path).to eq '/stores/' + @store_comment.store_id.to_s + '/store_comments/' + @store_comment.id.to_s
-      #   end
+        #   it '投稿編集後、編集した店舗詳細画面へ遷移してる' do
+        #     click_button 'Create Store'
+        #     expect(current_path).to eq  expect(current_path).to eq '/stores/' + @store_comment.store_id.to_s + '/store_comments/' + @store_comment.id.to_s
+        #   end
       end
-
     end
-
   end
-
 end

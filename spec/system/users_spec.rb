@@ -8,6 +8,7 @@ RSpec.describe 'Users', type: :system do
       before do
         visit new_user_registration_path
       end
+
       context '表示内容の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/users/sign_up'
@@ -28,6 +29,7 @@ RSpec.describe 'Users', type: :system do
           expect(page).to have_button '新規登録'
         end
       end
+
       context '新規登録のテスト' do
         before do
           fill_in 'user[name]', with: Faker::Lorem.characters(number: 5)
@@ -35,6 +37,7 @@ RSpec.describe 'Users', type: :system do
           fill_in 'user[password]', with: 'password'
           fill_in 'user[password_confirmation]', with: 'password'
         end
+
         it '正しく新規登録される' do
           expect { click_button '新規登録' }.to change(User.all, :count).by(1)
         end
@@ -64,6 +67,7 @@ RSpec.describe 'Users', type: :system do
           expect(page).to have_button 'ログイン'
         end
       end
+
       context 'ログイン成功のテスト' do
         before do
           @user = FactoryBot.create(:user)
@@ -71,21 +75,25 @@ RSpec.describe 'Users', type: :system do
           fill_in 'user[password]', with: @user.password
           click_button 'ログイン'
         end
+
         it 'ログイン後、ログインしたユーザー詳細画面に遷移している' do
           expect(current_path).to eq '/users/' + @user.id.to_s
         end
       end
+
       context 'ログイン失敗時のテスト' do
         before do
           fill_in 'user[email]', with: ''
           fill_in 'user[password]', with: ''
           click_button 'ログイン'
         end
+
         it 'ログインに失敗し、ログイン画面にリダイレクトされる' do
           expect(current_path).to eq '/users/sign_in'
         end
       end
     end
+
     describe 'ユーザログアウトのテスト' do
       before do
         user = FactoryBot.create(:user)
@@ -119,17 +127,20 @@ RSpec.describe 'Users', type: :system do
 
     describe 'ユーザー詳細画面のテスト' do
       context '本人のユーザー詳細画面の場合' do
-      before do
-        visit user_path(@user)
-      end
+        before do
+          visit user_path(@user)
+        end
+
         it 'ユーザー編集画面へのリンクが存在する' do
           expect(page).to have_link '', href: '/users/' + @user.id.to_s + '/edit'
         end
       end
+
       context '他人のユーザー詳細画面の場合' do
-      before do
-        visit user_path(@other_user)
-      end
+        before do
+          visit user_path(@other_user)
+        end
+
         it 'ユーザー編集画面へのリンクが存在しない' do
           expect(page).not_to have_link '', href: '/users/' + @other_user.id.to_s + '/edit'
         end
@@ -140,6 +151,7 @@ RSpec.describe 'Users', type: :system do
       before do
         visit edit_user_path(@user)
       end
+
       context '表示の確認' do
         it 'URLが正しい' do
           expect(current_path).to eq '/users/' + @user.id.to_s + '/edit'
@@ -157,12 +169,14 @@ RSpec.describe 'Users', type: :system do
           expect(page).to have_button '更新する'
         end
       end
+
       context '編集成功のテスト' do
         before do
           fill_in 'user[name]', with: 'test@example.com'
           fill_in 'user[introduction]', with: 'test'
           click_button '更新する'
         end
+
         it '編集成功後マイページに遷移している' do
           expect(current_path).to eq '/users/' + @user.id.to_s
         end
@@ -186,10 +200,12 @@ RSpec.describe 'Users', type: :system do
           click_button 'ログイン'
           visit user_path(@other_user)
         end
+
         it 'ユーザー詳細画面に削除リンクが存在する' do
           expect(page).to have_link 'ユーザーの削除', href: user_path(@other_user)
         end
       end
+
       context '通常ユーザーの場合' do
         before do
           visit new_user_session_path
@@ -198,8 +214,9 @@ RSpec.describe 'Users', type: :system do
           click_button 'ログイン'
           visit user_path(@other_user)
         end
+
         it 'ユーザー詳細画面に削除リンクが存在しない' do
-          expect(page).to_not have_link 'ユーザーの削除', href: user_path(@other_user)
+          expect(page).not_to have_link 'ユーザーの削除', href: user_path(@other_user)
         end
       end
     end
@@ -214,6 +231,7 @@ RSpec.describe 'Users', type: :system do
           visit user_path(@other_user)
           click_link 'ユーザーの削除'
         end
+
         it 'ユーザーの削除ができる' do
           expect(User.where(id: @other_user.id).count).to eq 0
         end
