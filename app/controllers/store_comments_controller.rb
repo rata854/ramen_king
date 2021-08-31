@@ -33,6 +33,7 @@ class StoreCommentsController < ApplicationController
     if @store_comment.update(store_comment_params)
       redirect_to store_store_comment_path(id: @store_comment), notice: "口コミを更新しました"
     else
+      @store = Store.find(params[:store_id])
       render :edit
     end
   end
