@@ -10,7 +10,8 @@ class StoresController < ApplicationController
     # タブ2用ページネーション
     @store_comments = @store.store_comments.page(params[:comments]).per(5)
     # タブ3用ページネーション(画像が無い場合非表示)
-    store_images = @store.store_comments.filter { |store_comment| store_comment.product_image.present? }
+    store_images = @store.store_comments.
+      filter { |store_comment| store_comment.product_image.present? }
     @store_images = Kaminari.paginate_array(store_images).page(params[:images]).per(12)
 
     respond_to do |format|
@@ -67,7 +68,8 @@ class StoresController < ApplicationController
   private
 
   def store_params
-    params.require(:store).permit(:store_name, :menu, :postal_code, :latitude, :longitude,
-                                  :address, :transportation, :business_day, :holiday, :business_status)
+    params.require(:store).permit(:store_name, :menu, :postal_code, :latitude,
+                                  :longitude, :address, :transportation,
+                                  :business_day, :holiday, :business_status)
   end
 end
