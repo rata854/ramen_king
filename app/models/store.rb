@@ -22,18 +22,21 @@ class Store < ApplicationRecord
 
   # ジャンル別ランキング
   def self.ranking_by_genre(genre)
-    find(StoreComment.where(store_comments: { genre: genre }).group(:store_id).order('avg(rate) desc').pluck(:store_id)).
+    find(StoreComment.where(store_comments: { genre: genre }).
+    group(:store_id).order('avg(rate) desc').pluck(:store_id)).
       select { |store| store.business_status == "営業中" }
   end
 
   # ユーザー別ランキング
   def self.my_ranking(user)
-    find(StoreComment.where(store_comments: { user_id: user.id }).group(:store_id).order('avg(rate) desc').pluck(:store_id)).
+    find(StoreComment.where(store_comments: { user_id: user.id }).
+    group(:store_id).order('avg(rate) desc').pluck(:store_id)).
       select { |store| store.business_status == "営業中" }
   end
 
   # ジャンル別の新着順
   def self.new_arrival(genre)
-    left_joins(:store_comments).where(store_comments: { genre: genre }).distinct.order(created_at: :DESC)
+    left_joins(:store_comments).where(store_comments: { genre: genre }).
+      distinct.order(created_at: :DESC)
   end
 end
