@@ -34,7 +34,7 @@ RSpec.describe 'Homes', type: :system do
         end
         it 'ランキングの店舗名をクリックすると店舗詳細画面に遷移する' do
           click_link store.store_name
-          is_expected.to eq '/stores/' + store.id.to_s
+          is_expected.to eq '/stores/' + user.id.to_s
         end
       end
     end
