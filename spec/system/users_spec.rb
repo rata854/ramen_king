@@ -7,10 +7,10 @@ RSpec.describe 'Users', type: :system do
   let!(:other_user) { create(:user) }
   let!(:store) { create(:store) }
   let!(:store_comment) { create(:store_comment, user_id: user.id, store_id: store.id) }
-
+  let!(:other_store_comment) { create(:store_comment, user_id: other_user.id, store_id: store.id) }
 
   describe 'ログイン前のユーザテスト' do
-    describe 'ユーー新規登録のテスト' do
+    describe '新規登録のテスト' do
       before do
         visit new_user_registration_path
       end
@@ -120,14 +120,17 @@ RSpec.describe 'Users', type: :system do
 
     describe 'ユーザー詳細画面のテスト' do
       context '未ログインユーザーの場合' do
+        subject { current_path }
+
         before do
           visit user_path(user)
         end
 
-        subject { current_path }
-
         it 'ユーザー口コミのタイトルが口コミ詳細画面へのリンクになっている' do
-          expect(page).to have_link store_comment.title, href: store_store_comment_path(store_comment.store_id, store_comment.id)
+          expect(page).to have_link store_comment.title,
+                                    href: store_store_comment_path(
+                                      store_comment.store_id, store_comment.id
+                                    )
         end
         it 'ユーザー口コミの投稿者がユーザー詳細画面へのリンクになっている' do
           expect(page).to have_link user.name, href: user_path(user)
@@ -136,7 +139,7 @@ RSpec.describe 'Users', type: :system do
           expect(page).to have_link store.store_name, href: store_path(store)
         end
         it 'ユーザー編集画面へのリンクが存在しない' do
-          expect(page).to_not have_link '', href: '/users/' + user.id.to_s + '/edit'
+          expect(page).not_to have_link '', href: '/users/' + user.id.to_s + '/edit'
         end
       end
     end
@@ -157,7 +160,10 @@ RSpec.describe 'Users', type: :system do
         end
 
         it '本人の口コミのタイトルが口コミ詳細画面へのリンクになっている' do
-          expect(page).to have_link store_comment.title, href: store_store_comment_path(store_comment.store_id, store_comment.id)
+          expect(page).to have_link store_comment.title,
+                                    href: store_store_comment_path(
+                                      store_comment.store_id, store_comment.id
+                                    )
         end
         it '本人の口コミの投稿者がユーザー詳細画面へのリンクになっている' do
           expect(page).to have_link user.name, href: user_path(user)
@@ -176,7 +182,10 @@ RSpec.describe 'Users', type: :system do
         end
 
         it '他人の口コミのタイトルが口コミ詳細画面へのリンクになっている' do
-          expect(page).to have_link store_comment.title, href: store_store_comment_path(store_comment.store_id, store_comment.id)
+          expect(page).to have_link other_store_comment.title,
+                                    href: store_store_comment_path(
+                                      other_store_comment.store_id, other_store_comment.id
+                                    )
         end
         it '他人の口コミの投稿者がユーザー詳細画面へのリンクになっている' do
           expect(page).to have_link other_user.name, href: user_path(other_user)
