@@ -9,7 +9,7 @@ RSpec.describe 'Users', type: :system do
   let!(:store_comment) { create(:store_comment, user_id: user.id, store_id: store.id) }
   let!(:other_store_comment) { create(:store_comment, user_id: other_user.id, store_id: store.id) }
 
-  describe 'ログイン前のユーザテスト' do
+  describe 'ログイン前のユーザーテスト' do
     describe '新規登録のテスト' do
       before do
         visit new_user_registration_path
@@ -120,7 +120,6 @@ RSpec.describe 'Users', type: :system do
 
     describe 'ユーザー詳細画面のテスト' do
       context '未ログインユーザーの場合' do
-        subject { current_path }
 
         before do
           visit user_path(user)
@@ -237,16 +236,14 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe '管理者ユーザーの削除機能テスト' do
-    before do
-      @admin_user = FactoryBot.create(:user, :admin)
-    end
+    let!(:admin_user) { create(:user, :admin) }
 
     describe 'ユーザー詳細画面のテスト' do
       context '管理者ユーザーの場合' do
         before do
           visit new_user_session_path
-          fill_in 'user[email]', with: @admin_user.email
-          fill_in 'user[password]', with: @admin_user.password
+          fill_in 'user[email]', with: admin_user.email
+          fill_in 'user[password]', with: admin_user.password
           click_button 'ログイン'
           visit user_path(other_user)
         end
@@ -275,8 +272,8 @@ RSpec.describe 'Users', type: :system do
       context '管理者ユーザーの場合' do
         before do
           visit new_user_session_path
-          fill_in 'user[email]', with: @admin_user.email
-          fill_in 'user[password]', with: @admin_user.password
+          fill_in 'user[email]', with: admin_user.email
+          fill_in 'user[password]', with: admin_user.password
           click_button 'ログイン'
           visit user_path(other_user)
           click_link 'ユーザーの削除'

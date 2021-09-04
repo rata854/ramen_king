@@ -3,9 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Stores', type: :system do
-  before do
-    @store = FactoryBot.create(:store)
-  end
+  let!(:user) { create(:user) }
+  let!(:store) { create(:store) }
 
   describe 'ログイン前' do
     describe '店舗一覧画面のテスト' do
@@ -25,12 +24,12 @@ RSpec.describe 'Stores', type: :system do
 
     describe '店舗詳細画面' do
       before do
-        visit store_path(@store)
+        visit store_path(store)
       end
 
       context '表示の確認' do
         it 'URLが正しい' do
-          expect(current_path).to eq '/stores/' + @store.id.to_s
+          expect(current_path).to eq '/stores/' + store.id.to_s
         end
         it 'ログインしてないと店舗編集画面へのリンクが存在しない' do
           expect(page).not_to have_link '店舗情報編集'
@@ -44,10 +43,9 @@ RSpec.describe 'Stores', type: :system do
 
   describe 'ログイン後' do
     before do
-      @user = FactoryBot.create(:user)
       visit new_user_session_path
-      fill_in 'user[email]', with: @user.email
-      fill_in 'user[password]', with: @user.password
+      fill_in 'user[email]', with: user.email
+      fill_in 'user[password]', with: user.password
       click_button 'ログイン'
     end
 
@@ -68,12 +66,12 @@ RSpec.describe 'Stores', type: :system do
 
     describe '店舗詳細画面' do
       before do
-        visit store_path(@store)
+        visit store_path(store)
       end
 
       context '表示の確認' do
         it 'URLが正しい' do
-          expect(current_path).to eq '/stores/' + @store.id.to_s
+          expect(current_path).to eq '/stores/' + store.id.to_s
         end
         it 'ログインしてると店舗編集画面へのリンクが存在する' do
           expect(page).to have_link '店舗情報編集'
@@ -142,33 +140,33 @@ RSpec.describe 'Stores', type: :system do
 
     describe '新規店舗登録画面のテスト' do
       before do
-        visit edit_store_path(@store)
+        visit edit_store_path(store)
       end
 
       context '表示の確認' do
         it 'URLが正しい' do
-          expect(current_path).to eq '/stores/' + @store.id.to_s + '/edit'
+          expect(current_path).to eq '/stores/' + store.id.to_s + '/edit'
         end
         it '店舗名編集フォームが表示されている' do
-          expect(page).to have_field 'store[store_name]', with: @store.store_name
+          expect(page).to have_field 'store[store_name]', with: store.store_name
         end
         it '郵便番号編集フォームが表示されている' do
-          expect(page).to have_field 'store[postal_code]', with: @store.postal_code
+          expect(page).to have_field 'store[postal_code]', with: store.postal_code
         end
         it '店舗住所編集フォームが表示されている' do
-          expect(page).to have_field 'store[address]', with: @store.address
+          expect(page).to have_field 'store[address]', with: store.address
         end
         it '交通手段編集フォームが表示されている' do
-          expect(page).to have_field 'store[transportation]', with: @store.transportation
+          expect(page).to have_field 'store[transportation]', with: store.transportation
         end
         it 'メニュー編集フォームが表示されている' do
-          expect(page).to have_field 'store[menu]', with: @store.menu
+          expect(page).to have_field 'store[menu]', with: store.menu
         end
         it '営業日編集フォームが表示されている' do
-          expect(page).to have_field 'store[business_day]', with: @store.business_day
+          expect(page).to have_field 'store[business_day]', with: store.business_day
         end
         it '定休日編集フォームが表示されている' do
-          expect(page).to have_field 'store[holiday]', with: @store.holiday
+          expect(page).to have_field 'store[holiday]', with: store.holiday
         end
         it 'Update Storeボタンが表示されている' do
           expect(page).to have_button 'Update Store'
@@ -188,7 +186,7 @@ RSpec.describe 'Stores', type: :system do
 
         it '店舗編集登録後、登録した店舗詳細画面へ遷移してる' do
           click_button 'Update Store'
-          expect(current_path).to eq '/stores/' + @store.id.to_s
+          expect(current_path).to eq '/stores/' + store.id.to_s
         end
       end
     end
@@ -206,6 +204,9 @@ RSpec.describe 'Stores', type: :system do
     end
 
     context '検索機能の確認' do
+      let!(:miso_store) { create(:store) }
+      let!(:miso_comments) { :store_comment }
+
       before do
         visit stores_path
       end
@@ -215,6 +216,7 @@ RSpec.describe 'Stores', type: :system do
         select 'みそ', from: 'genre'
         click_button '検索'
         expect(current_path).to eq '/search'
+        expect(page).to eq miso_store.store_name
       end
     end
   end
