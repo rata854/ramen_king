@@ -280,6 +280,7 @@ RSpec.describe 'Users', type: :system do
         end
 
         it 'ユーザーの削除ができる' do
+          # expect { click_link '口コミ削除' }.to change(StoreComment.all, :count).by(-1)
           expect(User.where(id: other_user.id).count).to eq 0
         end
         it 'ユーザー編集画面へのリンクが存在しない' do
